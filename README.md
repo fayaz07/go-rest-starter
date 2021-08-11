@@ -1,20 +1,15 @@
-# ToDo-API.go
+<h1 align="center"> Go REST API </h1>
+<p align="center"> powered by Go, MongoDB, JWT </p>
 
-## How to run the project?
+## Setting up and running the project
 
-> Note: Run the below commands in the root directory of the project.
+1. [Setup Environment](repo_setup/docs/environment.md)
+2. [Setup & Run Project](repo_setup/docs/project.md)
 
-1. Setup keys and `.env` file
+## All you need to know about project
 
-```bash
-make setup
-```
-
-2. Install dependencies
-
-```bash
-make install
-```
+1. [Database layer docs](repo_setup/docs/database.md)
+2. [AppConfig docs](repo_setup/docs/app_config.md)
 
 ---
 
