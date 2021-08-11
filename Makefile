@@ -12,7 +12,7 @@ install:
 	echo "Completed" 
 
 build:
-	go build main.go
+	go build src/main.go
 
 # dev server
 # reflex -r '\.go$' -s -- sh -c "go run src/main.go" 
