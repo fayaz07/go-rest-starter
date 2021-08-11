@@ -1,3 +1,3 @@
-module go-rest-starter
+module todo
 
 go 1.16
