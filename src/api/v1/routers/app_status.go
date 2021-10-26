@@ -11,7 +11,7 @@ func AddAppStatusRoutes(rg *gin.RouterGroup) {
 
 	appStatus := rg.Group("/app")
 
-	helloController := controllers.GetInstance()
+	helloController := controllers.GetHelloController()
 
 	appStatus.GET("/hello", helloController.Hello())
 

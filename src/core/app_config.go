@@ -66,6 +66,9 @@ func loadAppConfig() (string, int) {
 	} else if appEnv == "dev" {
 		log.Print("Running on dev environment")
 		appPort = appPort + 1
+	} else if appEnv == "staging" {
+		log.Print("Running on staging environment")
+		appPort = appPort + 3
 	}
 	return appEnv, appPort
 }
@@ -80,6 +83,8 @@ func loadDbConfig(appEnv string) *DatabaseConfig {
 		appDbName = appDbName + "-test"
 	} else if appEnv == "dev" {
 		appDbName = appDbName + "-dev"
+	} else if appEnv == "staging" {
+		appDbName = appDbName + "-staging"
 	}
 
 	return &DatabaseConfig{
