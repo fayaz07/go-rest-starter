@@ -14,6 +14,8 @@ func InitApplication() {
 
 	GetDbConnection(appConfig.DB)
 
+	InitRedis()
+
 	server = gin.Default()
 	InitializeServer(server)
 }

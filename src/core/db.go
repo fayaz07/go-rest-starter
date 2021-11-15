@@ -17,15 +17,19 @@ const (
 	mongodbSRV       = "mongodb+srv://%s:%s@%s"
 )
 
-var didInitializeDb bool = false
+var isDbConnectionAlive bool = false
 var db *mongo.Database
 
-func didConnectToDB() bool {
-	return didInitializeDb
+func isDbConnectionHealthy() bool {
+	err := db.Client().Ping(ctx, nil)
+	if err != nil {
+		isDbConnectionAlive = false
+	}
+	return isDbConnectionAlive
 }
 
 func GetDbConnection(config *DatabaseConfig) *mongo.Database {
-	if didInitializeDb {
+	if isDbConnectionAlive {
 		return db
 	}
 	connectToDb(config)
@@ -59,7 +63,7 @@ func connectToDb(config *DatabaseConfig) {
 	}
 
 	db = client.Database(config.DbName)
-	didInitializeDb = true
+	isDbConnectionAlive = true
 	log.Println("Connected to MongoDB!")
 }
 

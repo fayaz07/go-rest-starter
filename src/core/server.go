@@ -4,9 +4,14 @@ import (
 	routers "go-rest-starter/src/api/v1/routers"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+// health check variables
+var _lastHealthCheck time.Time = time.Now().Add(time.Duration(-5) * time.Minute)
+var _lastHealthResult = gin.H{}
 
 // InitializeServer inits server using dig
 func InitializeServer(r *gin.Engine) {
@@ -31,22 +36,29 @@ func InitializeServer(r *gin.Engine) {
 
 func health() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if didConnectToDB() {
-			c.JSON(http.StatusOK,
-				gin.H{
-					"healthy": true,
-					"app": gin.H{
-						"port":        _config.AppPort,
-						"environment": _config.AppEnv,
-					},
-					"services": gin.H{
-						"database": didConnectToDB(),
-					},
-				},
-			)
-		} else {
-			c.JSON(http.StatusOK, gin.H{"healthy": false, "services": gin.H{"database": didConnectToDB()}})
+
+		if _lastHealthCheck.After(time.Now().Add(time.Duration(-5) * time.Minute)) {
+			c.JSON(http.StatusOK, _lastHealthResult)
+			return
 		}
+
+		healthy := false
+		if isRedisHealthy() && isDbConnectionHealthy() {
+			healthy = true
+		}
+		_lastHealthCheck = time.Now()
+		_lastHealthResult = gin.H{
+			"healthy": healthy,
+			"app": gin.H{
+				"port":        _config.AppPort,
+				"environment": _config.AppEnv,
+			},
+			"services": gin.H{
+				"database": isDbConnectionHealthy(),
+				"redis":    isRedisHealthy(),
+			},
+		}
+		c.JSON(http.StatusOK, _lastHealthResult)
 	}
 }
 
