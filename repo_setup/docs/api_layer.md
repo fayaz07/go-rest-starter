@@ -8,6 +8,7 @@
 - **models**: will hold the data models
 - **middlewares**: will hold route-middlewares
 - **repository**: will hold all the operations that are to be performed on database using the data-model
+- **cache**: caching required or frequently used data
 - **wrappers**: will hold response/request wrappers and converters
 
 ```mermaid

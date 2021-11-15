@@ -8,6 +8,8 @@ import (
 	wrappers "go-rest-starter/src/api/wrappers"
 )
 
+var resWrapper wrappers.ResponseWrapper = wrappers.GetResponseWrapper()
+
 // Abstracting functions to be used only by those routers which require it
 type hello BaseController
 
@@ -17,14 +19,11 @@ func GetHelloController() hello {
 	return instance
 }
 
-var resWrapper wrappers.ResponseWrapper = wrappers.GetResponseWrapper()
-
 // Controller functions implementation start here
 
-// Hello this will return hello message
 func (hello) Hello() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusCreated, resWrapper.Success("Hey buddy", nil))
+		c.JSON(http.StatusOK, resWrapper.Success("Hello", nil))
 		c.Done()
 	}
 }

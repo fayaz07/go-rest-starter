@@ -2,6 +2,7 @@ package core
 
 import (
 	routers "go-rest-starter/src/api/v1/routers"
+	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,8 @@ func InitializeServer(r *gin.Engine) {
 
 	// r.Static("/s", "./public")
 
+	r.GET("/health", health())
+
 	v1 := r.Group("/v1")
 	routers.AddAppStatusRoutes(v1)
 
@@ -24,6 +27,27 @@ func InitializeServer(r *gin.Engine) {
 
 	port := ":" + strconv.Itoa(GetAppConfig().AppPort)
 	r.Run(port)
+}
+
+func health() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if didConnectToDB() {
+			c.JSON(http.StatusOK,
+				gin.H{
+					"healthy": true,
+					"app": gin.H{
+						"port":        _config.AppPort,
+						"environment": _config.AppEnv,
+					},
+					"services": gin.H{
+						"database": didConnectToDB(),
+					},
+				},
+			)
+		} else {
+			c.JSON(http.StatusOK, gin.H{"healthy": false, "services": gin.H{"database": didConnectToDB()}})
+		}
+	}
 }
 
 func invalidRoutes() gin.HandlerFunc {

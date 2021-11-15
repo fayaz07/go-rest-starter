@@ -20,7 +20,10 @@ const (
 var didInitializeDb bool = false
 var db *mongo.Database
 
-// GetDbConnection (config DatabaseConfig) ... This will export database connection
+func didConnectToDB() bool {
+	return didInitializeDb
+}
+
 func GetDbConnection(config *DatabaseConfig) *mongo.Database {
 	if didInitializeDb {
 		return db
