@@ -6,21 +6,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-
 // Abstracting functions to be used only by those routers which require it
-type hello BaseController
+type auth BaseController
 
-var instance hello
+var _authInstance auth
 
-func GetHelloController() hello {
-	return instance
+func GetAuthController() auth {
+	return _authInstance
 }
 
 // Controller functions implementation start here
-func (hello) Hello() gin.HandlerFunc {
+
+func (auth) Init() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, resWrapper.Success("Hello", nil))
+		c.JSON(http.StatusOK, resWrapper.Success("This will init auth", nil))
 		c.Done()
 	}
 }

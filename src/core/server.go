@@ -25,8 +25,9 @@ func InitializeServer(r *gin.Engine) {
 
 	r.GET("/health", health())
 
-	v1 := r.Group("/v1")
+	v1 := r.Group("/api/v1")
 	routers.AddAppStatusRoutes(v1)
+	routers.AddAuthRoutes(v1)
 
 	r.Use(invalidRoutes())
 

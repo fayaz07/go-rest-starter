@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "65820950-3842-48ad-9394-c70826a30dc5",
+		"_postman_id": "a793e659-3e71-4f12-8fa6-2c867f34207f",
 		"name": "go-rest-starter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,13 +14,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:7001/v1/app/hello",
+							"raw": "{{url}}/app/hello",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "7001",
 							"path": [
-								"v1",
 								"app",
 								"hello"
 							]
@@ -47,6 +45,55 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "init authentication",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/auth/init",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"init"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost:7001/api/v1"
 		}
 	]
 }
