@@ -6,8 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-
 // Abstracting functions to be used only by those routers which require it
 type hello BaseController
 

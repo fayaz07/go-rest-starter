@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"go-rest-starter/src/api/repository"
 	helpers "go-rest-starter/src/utils/helpers"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -18,28 +19,32 @@ const (
 )
 
 var isDbConnectionAlive bool = false
-var db *mongo.Database
+var _db *mongo.Database
 
 func isDbConnectionHealthy() bool {
-	err := db.Client().Ping(ctx, nil)
+	err := _db.Client().Ping(ctx, nil)
 	if err != nil {
 		isDbConnectionAlive = false
 	}
 	return isDbConnectionAlive
 }
 
-func GetDbConnection(config *DatabaseConfig) *mongo.Database {
-	if isDbConnectionAlive {
-		return db
-	}
-	connectToDb(config)
-	return db
+func GetDbConnection() *mongo.Database {
+	return _db
+}
+
+func InitializeDatabseConn(config *DatabaseConfig) {
+	once.Do(func() {
+		if !isDbConnectionAlive {
+			connectToDb(config)
+		}
+	})
 }
 
 func connectToDb(config *DatabaseConfig) {
 
 	connectionURI := mongodbConnString(config)
-	// log.Println(connectionURI)
+	log.Println(connectionURI)
 
 	ctx := helpers.GetContext()
 
@@ -60,15 +65,26 @@ func connectToDb(config *DatabaseConfig) {
 	if err != nil {
 		log.Printf("Failed to ping cluster: %v", err)
 		panic(err)
+	} else {
+		log.Println("MongoDb: Ping-pong")
 	}
 
-	db = client.Database(config.DbName)
+	_db = client.Database(config.DbName)
 	isDbConnectionAlive = true
-	log.Println("Connected to MongoDB!")
+
+	// collection := _db.Collection("issues")
+	// //Perform InsertOne operation & validate against the error.
+	// _, err = collection.InsertOne(context.TODO(), bson.M{"name": "pi", "value": 3.14159})
+
+	log.Printf("Connected to MongoDB!")
+
+	log.Println("injecting db instance to repository")
+	// db instance injection
+	repository.UseDb(_db)
 }
 
 func mongodbConnString(config *DatabaseConfig) string {
-	// for localhost: mongodb://<username>:<password>@host/db-name
+	// for localhost: mongodb://<username>:<password>@host/_db-name
 	// only localhost will have a port
 	// localhost dbs will not include srv
 	if config.DbHost == localhost {
@@ -79,7 +95,7 @@ func mongodbConnString(config *DatabaseConfig) string {
 		return fmt.Sprintf(mongodbLocalAuth, config.DbUsername, config.DbPassword, config.DbHost, config.DbPort)
 	}
 
-	// for remote host: mongodb+srv://<username>:<password>@host/db-name
+	// for remote host: mongodb+srv://<username>:<password>@host/_db-name
 	// atlas clusters will not provide a port or connect to default port 27017
 	return fmt.Sprintf(mongodbSRV, config.DbUsername, config.DbPassword, config.DbHost)
 }

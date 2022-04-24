@@ -12,6 +12,6 @@ func AddAuthRoutes(rg *gin.RouterGroup) {
 
 	authRoute := rg.Group("/auth")
 
-	authRoute.GET("/init", authController.Init())
+	authRoute.POST("/init", authController.Init())
 
 }

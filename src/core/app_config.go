@@ -87,6 +87,8 @@ func loadDbConfig(appEnv string) *DatabaseConfig {
 		appDbName = appDbName + "-staging"
 	}
 
+	log.Println(appDbName)
+
 	return &DatabaseConfig{
 		DbName:     appDbName,
 		DbHost:     os.Getenv(dBHost),

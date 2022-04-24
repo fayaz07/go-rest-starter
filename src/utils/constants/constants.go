@@ -8,4 +8,6 @@ const (
 
 	Success = "success"
 	Failed  = "failed"
+
+	Invalid_Request_Body = "Invalid request body"
 )

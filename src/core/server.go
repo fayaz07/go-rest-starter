@@ -2,6 +2,7 @@ package core
 
 import (
 	routers "go-rest-starter/src/api/v1/routers"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -16,6 +17,8 @@ var _lastHealthResult = gin.H{}
 // InitializeServer inits server using dig
 func InitializeServer(r *gin.Engine) {
 	//	e.InitEmailConfig()
+
+	log.Println("Starting GIN Server...")
 
 	r.Use(gin.Recovery())
 
