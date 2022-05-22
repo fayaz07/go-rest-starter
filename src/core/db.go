@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"log"
+	"sync"
 
 	"go-rest-starter/src/api/repository"
 	helpers "go-rest-starter/src/utils/helpers"
@@ -20,6 +21,7 @@ const (
 
 var isDbConnectionAlive bool = false
 var _db *mongo.Database
+var _onceForDb sync.Once
 
 func isDbConnectionHealthy() bool {
 	err := _db.Client().Ping(ctx, nil)
@@ -34,7 +36,7 @@ func GetDbConnection() *mongo.Database {
 }
 
 func InitializeDatabseConn(config *DatabaseConfig) {
-	once.Do(func() {
+	_onceForDb.Do(func() {
 		if !isDbConnectionAlive {
 			connectToDb(config)
 		}

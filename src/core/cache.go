@@ -15,13 +15,13 @@ const (
 )
 
 var ctx = context.Background()
-var once sync.Once
+var _once sync.Once
 var redisDb *redis.Client
 
 var redisDbActive bool = false
 
 func InitRedis() {
-	once.Do(func() {
+	_once.Do(func() {
 		log.Println("Initializing redis layer...")
 		redisDb = redis.NewClient(&redis.Options{
 			Addr:     address,

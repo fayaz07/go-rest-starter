@@ -1,81 +1,108 @@
 {
-  "info": {
-    "_postman_id": "a793e659-3e71-4f12-8fa6-2c867f34207f",
-    "name": "go-rest-starter",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "app",
-      "item": [
-        {
-          "name": "hello server",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{url}}/app/hello",
-              "host": ["{{url}}"],
-              "path": ["app", "hello"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "health check",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "localhost:7001/health",
-              "host": ["localhost"],
-              "port": "7001",
-              "path": ["health"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "auth",
-      "item": [
-        {
-          "name": "init authentication",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{url}}/auth/init",
-              "host": ["{{url}}"],
-              "path": ["auth", "init"]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "url",
-      "value": "localhost:7001/api/v1"
-    }
-  ]
+	"info": {
+		"_postman_id": "a793e659-3e71-4f12-8fa6-2c867f34207f",
+		"name": "go-rest-starter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "app",
+			"item": [
+				{
+					"name": "hello server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/app/hello",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"app",
+								"hello"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "health check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:7001/health",
+							"host": [
+								"localhost"
+							],
+							"port": "7001",
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "init authentication",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"device\": \"mobile\",\n    \"os\": \"android\",\n    \"version\": \"7.0\",\n    \"model\": \"Samsung Galaxy S7\",\n    \"manufacturer\": \"Samsung\",\n    \"connection\": \"wifi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/init",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"init"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost:7001/api/v1"
+		}
+	]
 }

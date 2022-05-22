@@ -22,7 +22,9 @@ export PATH=$PATH:/usr/local/go/bin
 ```
 
 #### Reflex for watchable server
+
 > Note: requires GO version 1.16+
+
 ```bash
 go install github.com/cespare/reflex@latest
 ```
