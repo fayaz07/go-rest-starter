@@ -6,12 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var helloController = controllers.GetHelloController()
+var appStatusController = controllers.GetAppStatusController()
 
 func AddAppStatusRoutes(rg *gin.RouterGroup) {
 
 	appStatus := rg.Group("/app")
 
-	appStatus.GET("/hello", helloController.Hello())
+	appStatus.GET("/hello", appStatusController.SayHello())
 
 }
