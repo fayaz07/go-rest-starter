@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun May 22 11:33:37 2022
+# Make data base, printed on Mon May 30 14:28:27 2022
 
 # Variables
 
@@ -25,7 +25,7 @@ SNAP_INSTANCE_KEY =
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-7ff5a86b-8bcd-4aeb-8eab-ae43ec71e05f.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-f82336ed-40df-4c3e-b944-3a8fe8b8225f.sock
 # environment
 MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
 # environment
@@ -109,7 +109,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 5209
+VSCODE_PID = 5858
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -117,7 +117,7 @@ XDG_SESSION_TYPE = x11
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/hp:@/tmp/.ICE-unix/1652,unix/hp:/tmp/.ICE-unix/1652
+SESSION_MANAGER = local/hp:@/tmp/.ICE-unix/1620,unix/hp:/tmp/.ICE-unix/1620
 # automatic
 *F = $(notdir $*)
 # environment
@@ -163,7 +163,7 @@ SNAP = /snap/code/97
 # environment
 GOROOT = /usr/local/go
 # environment
-INVOCATION_ID = 0a68205d059e4a66b9b9c7a3f70767ed
+INVOCATION_ID = 001d42e1fd35441a911ee83fc51c8aec
 # environment
 SNAP_REVISION = 97
 # environment
@@ -213,9 +213,9 @@ SNAP_DATA = /var/snap/code/97
 # environment
 SNAP_CONTEXT = zeZYVG3QPagp591lxPDCYtdeJ5f2aY2GAXEAgssYlqU2eU0928Z6
 # environment
-MANAGERPID = 1265
+MANAGERPID = 1262
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 5159
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5812
 # environment
 _ = /snap/code/97/usr/share/code/code
 # environment
@@ -227,7 +227,7 @@ GDK_PIXBUF_MODULE_FILE = /home/fayaz/snap/code/common/.cache/gdk-pixbuf-loaders.
 # environment
 NVM_CD_FLAGS = 
 # environment
-JOURNAL_STREAM = 8:30469
+JOURNAL_STREAM = 8:32924
 # environment
 GOMODCACHE = /home/fayaz/gopath/pkg/mod
 # environment
@@ -288,13 +288,13 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 # 14 files, no impossibilities in 1 directories.
 
 # Implicit Rules
- 
 
 # No implicit rules.
 
 # Files
 
 setup:
+ 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -386,6 +386,6 @@ install:
 # strcache performance: lookups = 35 / hit rate = 34%
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=0/35=0%
-# Finished Make data base on Sun May 22 11:33:37 2022
+# Finished Make data base on Mon May 30 14:28:27 2022
 
  
