@@ -14,5 +14,6 @@ install:
 build:
 	go build src/main.go
 
-# dev server
-# reflex -r '\.go$' -s -- sh -c "go run src/main.go" 
+# server
+run: 
+	reflex -r "\.go$" -s -- sh -c "go run src/main.go" 

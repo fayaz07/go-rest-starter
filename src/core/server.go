@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,6 +23,15 @@ func InitializeServer(r *gin.Engine) {
 
 	r.Use(gin.Recovery())
 
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "http://127.0.0.1", "http://127.0.0.1:7001"},
+		AllowMethods:     []string{"PUT", "POST"},
+		AllowHeaders:     []string{"Origin", "Host"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
 	r.MaxMultipartMemory = 4 << 20
 
 	// r.Static("/s", "./public")
@@ -35,7 +45,7 @@ func InitializeServer(r *gin.Engine) {
 	r.Use(invalidRoutes())
 
 	port := ":" + strconv.Itoa(GetAppConfig().AppPort)
-	r.Run(port)
+	r.Run("localhost" + port)
 }
 
 func health() gin.HandlerFunc {

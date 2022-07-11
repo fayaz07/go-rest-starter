@@ -17,7 +17,7 @@ var clientCollection *mongo.Collection
 
 const CLIENT_COLLECTION = "clients"
 
-type ClientCollection struct {
+type ClientModel struct {
 	ID        primitive.ObjectID `json:"id" binding:"required" bson:"_id,omitempty"`
 	CreatedAt time.Time          `bson:"createdAt,omitempty" json:"createdAt"`
 	UpdatedAt time.Time          `bson:"updatedAt,omitempty" json:"updatedAt"`
@@ -33,9 +33,11 @@ type ClientCollection struct {
 	Connection   string `json:"connection" bson:"connection"`
 
 	// Fields for web
-	UserAgent string `json:"user_agent" bson:"user_agent"`
+	UserAgent string `json:"userAgent" bson:"userAgent"`
 	Host      string `json:"host" bson:"host"`
 	Browser   string `json:"browser" bson:"browser"`
+
+	Referer string `json:"referer" bson:"referer"`
 }
 
 func GetClientCollection(db *mongo.Database) *mongo.Collection {
@@ -50,7 +52,7 @@ func GetClientCollection(db *mongo.Database) *mongo.Collection {
 
 		createClientCollectionIndexes()
 	})
-	clientCollection.InsertOne(context.Background(), bson.M{"foo": "bar"})
+	// clientCollection.InsertOne(context.Background(), bson.M{"foo": "bar"})
 	return clientCollection
 }
 
@@ -68,4 +70,8 @@ func createClientCollectionIndexes() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func (m ClientModel) Print() {
+	PrettyPrint(m)
 }

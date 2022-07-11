@@ -4,7 +4,10 @@ import (
 	"net/http"
 
 	reqModels "go-rest-starter/src/api/models/req/auth"
+	"go-rest-starter/src/api/repository"
 	"go-rest-starter/src/utils/constants"
+
+	helpers "go-rest-starter/src/utils/helpers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +21,8 @@ func GetAuthController() auth {
 	return _authInstance
 }
 
+var _authRepo = repository.GetAuthRepo()
+
 // Controller functions implementation start here
 func (auth) Init() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -28,10 +33,14 @@ func (auth) Init() gin.HandlerFunc {
 			return
 		}
 
+		helpers.ParseExtraClientInfo(c, &req)
+
 		if err := req.Validate(); err != nil {
 			c.JSON(http.StatusBadRequest, resWrapper.Error(constants.Invalid_Request_Body, err))
 			return
 		}
+
+		_authRepo.Init(req)
 
 		c.JSON(http.StatusOK, resWrapper.Success("This will init auth", nil))
 		c.Done()
