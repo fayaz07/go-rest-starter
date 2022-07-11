@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"go-rest-starter/src/api/repository"
+	appTypes "go-rest-starter/src/core/types"
 	helpers "go-rest-starter/src/utils/helpers"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,7 +36,7 @@ func GetDbConnection() *mongo.Database {
 	return _db
 }
 
-func InitializeDatabseConn(config *DatabaseConfig) {
+func InitializeDatabseConn(config *appTypes.DatabaseConfig) {
 	_onceForDb.Do(func() {
 		if !isDbConnectionAlive {
 			connectToDb(config)
@@ -43,7 +44,7 @@ func InitializeDatabseConn(config *DatabaseConfig) {
 	})
 }
 
-func connectToDb(config *DatabaseConfig) {
+func connectToDb(config *appTypes.DatabaseConfig) {
 
 	connectionURI := mongodbConnString(config)
 	log.Println(connectionURI)
@@ -85,7 +86,7 @@ func connectToDb(config *DatabaseConfig) {
 	repository.UseDb(_db)
 }
 
-func mongodbConnString(config *DatabaseConfig) string {
+func mongodbConnString(config *appTypes.DatabaseConfig) string {
 	// for localhost: mongodb://<username>:<password>@host/_db-name
 	// only localhost will have a port
 	// localhost dbs will not include srv

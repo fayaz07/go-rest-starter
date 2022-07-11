@@ -5,12 +5,14 @@ import (
 	"os"
 	"strconv"
 
+	appTypes "go-rest-starter/src/core/types"
+
 	"github.com/joho/godotenv"
 )
 
-var _config AppConfig
+var _config appTypes.AppConfig
 
-func GetAppConfig() *AppConfig {
+func GetAppConfig() *appTypes.AppConfig {
 	if _config.Initiated {
 		return &_config
 	}
@@ -27,7 +29,7 @@ func initAppConfig() {
 	appEnv, appPort := loadAppConfig()
 
 	// initialize app config variable
-	_config = AppConfig{
+	_config = appTypes.AppConfig{
 		Initiated: true,
 		AppEnv:    appEnv,
 		AppPort:   appPort,
@@ -73,7 +75,7 @@ func loadAppConfig() (string, int) {
 	return appEnv, appPort
 }
 
-func loadDbConfig(appEnv string) *DatabaseConfig {
+func loadDbConfig(appEnv string) *appTypes.DatabaseConfig {
 	// get the database name from .env
 	appDbName := os.Getenv(dBName)
 
@@ -89,7 +91,7 @@ func loadDbConfig(appEnv string) *DatabaseConfig {
 
 	log.Println(appDbName)
 
-	return &DatabaseConfig{
+	return &appTypes.DatabaseConfig{
 		DbName:     appDbName,
 		DbHost:     os.Getenv(dBHost),
 		DbPort:     os.Getenv(dBPort),
@@ -98,15 +100,15 @@ func loadDbConfig(appEnv string) *DatabaseConfig {
 	}
 }
 
-func loadSendGridConfig() *SendGridConfig {
-	return &SendGridConfig{
+func loadSendGridConfig() *appTypes.SendGridConfig {
+	return &appTypes.SendGridConfig{
 		SgAPIKey:   os.Getenv(sgAPIKey),
 		SgEmail:    os.Getenv(sgEmail),
 		SgUsername: os.Getenv(sgUsername),
 	}
 }
 
-func loadJwtConfig() *JwtConfig {
+func loadJwtConfig() *appTypes.JwtConfig {
 	a, err := strconv.Atoi(os.Getenv(accessTokenExpiry))
 	if err != nil {
 		a = 1 * 60 * 60
@@ -117,7 +119,7 @@ func loadJwtConfig() *JwtConfig {
 		b = 12 * 60 * 60
 	}
 
-	return &JwtConfig{
+	return &appTypes.JwtConfig{
 		AccessTokenExpiry:  a,
 		RefreshTokenExpiry: b,
 	}
