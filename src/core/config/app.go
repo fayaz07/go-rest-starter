@@ -1,4 +1,4 @@
-package core
+package config
 
 import (
 	"log"
@@ -73,54 +73,4 @@ func loadAppConfig() (string, int) {
 		appPort = appPort + 3
 	}
 	return appEnv, appPort
-}
-
-func loadDbConfig(appEnv string) *appTypes.DatabaseConfig {
-	// get the database name from .env
-	appDbName := os.Getenv(dBName)
-
-	// structure port, database name according to environment
-	if appEnv == "prod" {
-	} else if appEnv == "test" {
-		appDbName = appDbName + "-test"
-	} else if appEnv == "dev" {
-		appDbName = appDbName + "-dev"
-	} else if appEnv == "staging" {
-		appDbName = appDbName + "-staging"
-	}
-
-	log.Println(appDbName)
-
-	return &appTypes.DatabaseConfig{
-		DbName:     appDbName,
-		DbHost:     os.Getenv(dBHost),
-		DbPort:     os.Getenv(dBPort),
-		DbUsername: os.Getenv(dBUsername),
-		DbPassword: os.Getenv(dBPassword),
-	}
-}
-
-func loadSendGridConfig() *appTypes.SendGridConfig {
-	return &appTypes.SendGridConfig{
-		SgAPIKey:   os.Getenv(sgAPIKey),
-		SgEmail:    os.Getenv(sgEmail),
-		SgUsername: os.Getenv(sgUsername),
-	}
-}
-
-func loadJwtConfig() *appTypes.JwtConfig {
-	a, err := strconv.Atoi(os.Getenv(accessTokenExpiry))
-	if err != nil {
-		a = 1 * 60 * 60
-	}
-
-	b, err := strconv.Atoi(os.Getenv(refreshTokenExpiry))
-	if err != nil {
-		b = 12 * 60 * 60
-	}
-
-	return &appTypes.JwtConfig{
-		AccessTokenExpiry:  a,
-		RefreshTokenExpiry: b,
-	}
 }

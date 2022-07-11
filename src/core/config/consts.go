@@ -1,4 +1,4 @@
-package core
+package config
 
 const (
 	appEnv  = "APP_ENV"

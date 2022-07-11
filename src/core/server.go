@@ -2,6 +2,7 @@ package core
 
 import (
 	routers "go-rest-starter/src/api/v1/routers"
+	config "go-rest-starter/src/core/config"
 	"log"
 	"net/http"
 	"strconv"
@@ -44,7 +45,7 @@ func InitializeServer(r *gin.Engine) {
 
 	r.Use(invalidRoutes())
 
-	port := ":" + strconv.Itoa(GetAppConfig().AppPort)
+	port := ":" + strconv.Itoa(config.GetAppConfig().AppPort)
 	r.Run("localhost" + port)
 }
 
@@ -64,8 +65,8 @@ func health() gin.HandlerFunc {
 		_lastHealthResult = gin.H{
 			"healthy": healthy,
 			"app": gin.H{
-				"port":        _config.AppPort,
-				"environment": _config.AppEnv,
+				"port":        config.GetAppConfig().AppPort,
+				"environment": config.GetAppConfig().AppEnv,
 			},
 			"services": gin.H{
 				"database": isDbConnectionHealthy(),

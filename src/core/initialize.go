@@ -4,12 +4,14 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+
+	config "go-rest-starter/src/core/config"
 )
 
 var server *gin.Engine
 
 func InitApplication() {
-	appConfig := GetAppConfig()
+	appConfig := config.GetAppConfig()
 	log.Println("#v", appConfig)
 
 	log.Println("Connecting to database ....")
