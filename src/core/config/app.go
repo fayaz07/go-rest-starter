@@ -6,8 +6,6 @@ import (
 	"strconv"
 
 	appTypes "go-rest-starter/src/core/types"
-
-	"github.com/joho/godotenv"
 )
 
 var _config appTypes.AppConfig
@@ -39,15 +37,6 @@ func initAppConfig() {
 	}
 }
 
-func loadEnvFile() {
-	log.Println("Loading .env file")
-	err := godotenv.Load(".env")
-
-	if err != nil {
-		panic("Error loading .env file")
-	}
-}
-
 func loadAppConfig() (string, int) {
 	// get the environment from .env
 	appEnv := os.Getenv(appEnv)
@@ -60,15 +49,15 @@ func loadAppConfig() (string, int) {
 	}
 
 	// structure port, database name according to environment
-	if appEnv == "prod" {
+	if appEnv == prodEnv {
 		log.Print("Running on prod environment")
-	} else if appEnv == "test" {
+	} else if appEnv == testEnv {
 		log.Print("Running on test environment")
 		appPort = appPort + 2
-	} else if appEnv == "dev" {
+	} else if appEnv == devEnv {
 		log.Print("Running on dev environment")
 		appPort = appPort + 1
-	} else if appEnv == "staging" {
+	} else if appEnv == stagingEnv {
 		log.Print("Running on staging environment")
 		appPort = appPort + 3
 	}

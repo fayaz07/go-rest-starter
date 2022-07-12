@@ -19,4 +19,10 @@ const (
 	// JWT
 	accessTokenExpiry  = "JWT_ACCESS_EXPIRY"
 	refreshTokenExpiry = "JWT_REFRESH_EXPIRY"
+
+	// environments
+	prodEnv    = "prod"
+	testEnv    = "test"
+	devEnv     = "dev"
+	stagingEnv = "staging"
 )
