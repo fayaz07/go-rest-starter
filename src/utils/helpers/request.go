@@ -11,11 +11,7 @@ func ParseExtraClientInfo(req *gin.Context, d *modelRef.AuthInitReq) {
 
 	d.UserAgent = req.GetHeader("User-Agent")
 	d.Referer = req.GetHeader("Referer")
-	// fmt.Println(req.GetHeader("Host"))
-	// fmt.Println(req.GetHeader("Origin"))
-	// fmt.Println(req.GetHeader("Host"))
-	// fmt.Println(len(req.GetHeader("Host")))
-	// fmt.Println(len(req.GetHeader("Host")) > 0)
+
 	if len(req.GetHeader("Host")) > 0 {
 		d.Host = req.GetHeader("Host")
 	} else {

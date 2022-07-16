@@ -12,9 +12,9 @@ const (
 	dBPassword = "DB_PASSWORD"
 
 	// SendGrid
-	sgAPIKey   = "SENDGRID_API_KEY"
-	sgEmail    = "SENDGRID_EMAIL"
-	sgUsername = "SENDGRID_USERNAME"
+	SgAPIKey   = "SENDGRID_API_KEY"
+	SgEmail    = "SENDGRID_EMAIL"
+	SgUsername = "SENDGRID_USERNAME"
 
 	// JWT
 	accessTokenExpiry  = "JWT_ACCESS_EXPIRY"
