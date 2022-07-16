@@ -18,7 +18,7 @@ func TestLoadSendGridConfig(t *testing.T) {
 	t.Setenv(SgUsername, mockUsername)
 
 	result := loadSendGridConfig()
-	assert.Equal(result.SgAPIKey, mockApiKey)
-	assert.Equal(result.SgEmail, mockEmail)
-	assert.Equal(result.SgUsername, mockUsername)
+	assert.Equal(mockApiKey, result.SgAPIKey)
+	assert.Equal(mockEmail, result.SgEmail)
+	assert.Equal(mockUsername, result.SgUsername)
 }

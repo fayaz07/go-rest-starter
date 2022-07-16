@@ -17,3 +17,6 @@ build:
 # server
 run: 
 	reflex -r "\.go$" -s -- sh -c "go run src/main.go" 
+
+test:
+	go test ./src/... -coverprofile=coverage.out; go tool cover -html=coverage.out
