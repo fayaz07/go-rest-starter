@@ -18,7 +18,6 @@ func GetAppConfig() *appTypes.AppConfig {
 	return &_config
 }
 
-// initAppConfig - pull data from .env
 func initAppConfig() {
 	log.Println("Initialising application configuration")
 
@@ -26,7 +25,6 @@ func initAppConfig() {
 
 	appEnv, appPort := loadAppConfig()
 
-	// initialize app config variable
 	_config = appTypes.AppConfig{
 		Initiated: true,
 		AppEnv:    appEnv,
@@ -38,28 +36,14 @@ func initAppConfig() {
 }
 
 func loadAppConfig() (string, int) {
-	// get the environment from .env
-	appEnv := os.Getenv(appEnv)
+	appEnv := getCurrentEnvironment()
 
-	// get the port from .env
 	appPort, err := strconv.Atoi(os.Getenv(appPort))
 	if err != nil {
 		log.Fatal("App port can't be parsed, setting to default port: 7000")
 		appPort = 7000
 	}
 
-	// structure port, database name according to environment
-	if appEnv == prodEnv {
-		log.Print("Running on prod environment")
-	} else if appEnv == testEnv {
-		log.Print("Running on test environment")
-		appPort = appPort + 2
-	} else if appEnv == devEnv {
-		log.Print("Running on dev environment")
-		appPort = appPort + 1
-	} else if appEnv == stagingEnv {
-		log.Print("Running on staging environment")
-		appPort = appPort + 3
-	}
+	log.Printf("Running on %s environment\n", appEnv)
 	return appEnv, appPort
 }

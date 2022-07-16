@@ -21,8 +21,9 @@ const (
 	refreshTokenExpiry = "JWT_REFRESH_EXPIRY"
 
 	// environments
-	prodEnv    = "prod"
-	testEnv    = "test"
-	devEnv     = "dev"
-	stagingEnv = "staging"
+	envConst    = "env"
+	PROD_ENV    = "prod"
+	TEST_ENV    = "test"
+	DEV_ENV     = "dev"
+	STAGING_ENV = "staging"
 )

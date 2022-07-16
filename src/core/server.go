@@ -21,6 +21,7 @@ func InitializeServer(r *gin.Engine) {
 	//	e.InitEmailConfig()
 
 	log.Println("Starting GIN Server...")
+	setGinMode()
 
 	r.Use(gin.Recovery())
 
@@ -80,5 +81,16 @@ func health() gin.HandlerFunc {
 func invalidRoutes() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.AbortWithStatusJSON(404, gin.H{"status": "failed", "message": "You've lost in this universe"})
+	}
+}
+
+func setGinMode() {
+	switch config.GetAppConfig().AppEnv {
+	case config.PROD_ENV:
+		gin.SetMode(gin.ReleaseMode)
+	case config.DEV_ENV:
+		gin.SetMode(gin.DebugMode)
+	case config.TEST_ENV, config.STAGING_ENV:
+		gin.SetMode(gin.TestMode)
 	}
 }
