@@ -17,8 +17,8 @@ const (
 	SgUsername = "SENDGRID_USERNAME"
 
 	// JWT
-	accessTokenExpiry  = "JWT_ACCESS_EXPIRY"
-	refreshTokenExpiry = "JWT_REFRESH_EXPIRY"
+	ACCESS_TOKEN_EXPIRY_KEY  = "JWT_ACCESS_EXPIRY"
+	REFRESH_TOKEN_EXPIRY_KEY = "JWT_REFRESH_EXPIRY"
 
 	// environments
 	envConst    = "env"
