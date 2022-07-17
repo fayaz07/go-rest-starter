@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -45,11 +46,11 @@ func TestLoadDbConfigDbNames(t *testing.T) {
 	assert.Equal(mockDbName, result.DbName)
 
 	result = loadDbConfig(DEV_ENV)
-	assert.Equal(mockDbName+"-dev", result.DbName)
+	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, DEV_ENV), result.DbName)
 
 	result = loadDbConfig(STAGING_ENV)
-	assert.Equal(mockDbName+"-staging", result.DbName)
+	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, STAGING_ENV), result.DbName)
 
 	result = loadDbConfig(TEST_ENV)
-	assert.Equal(mockDbName+"-test", result.DbName)
+	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, TEST_ENV), result.DbName)
 }
