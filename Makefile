@@ -18,5 +18,8 @@ build:
 run: 
 	reflex -r "\.go$" -s -- sh -c "go run src/main.go" 
 
-test:
+clean_cache:
+	go clean -testcache	
+
+test: clean_cache
 	go test ./src/... -coverprofile=coverage.out; go tool cover -html=coverage.out
