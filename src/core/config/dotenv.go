@@ -31,7 +31,7 @@ func getEnvFilePath() string {
 func getHomeDir() string {
 	dirname, err := os.UserHomeDir()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return dirname
 }
