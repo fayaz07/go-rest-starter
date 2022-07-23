@@ -1,142 +1,142 @@
 #!/bin/bash
 
-declare -a environments=("prod" "staging" "dev" "test")
-declare -a reqPublicDirs=("uploads" "static")
-configDir="config"
-keysDir="keys"
-publicDir="public"
+source ./repo_setup/scripts/utils.sh
 
-function isValidDirectory() {
-  ASCII_FILE=repo_setup/scripts/ascii.txt
-  if test -f "$ASCII_FILE"; then
-    echo -e "\e[34m$(cat $ASCII_FILE)\e[0m"
+declare -a ENVIRONMENTS=("prod" "staging" "dev" "test")
+declare -a PUBLIC_DIRECTORIES=("uploads" "static")
+
+CONFIG_DIR="config"
+KEYS_DIR="keys"
+PUBLIC_DIR="public_server"
+DOT_ENVS_DIR="dotenvs"
+APP_NAME="test"
+DOT_ENV_FILE=".env"
+SLASH="/"
+
+ASCII_FILE=repo_setup/scripts/ascii.txt
+
+# OPEN SSL KEYS, CONFIGS, FILE NAMES
+OPEN_SSL_KEY_SIZE_ACCESS_TOKEN=512
+OPEN_SSL_KEY_SIZE_REFRSH_TOKEN=1024
+
+PVT_ACCESS_KEY="pvt_a.pem"
+PUB_ACCESS_KEY="pub_a.pem"
+
+PVT_REFRESH_KEY="pvt_r.pem"
+PUB_REFRESH_KEY="pub_r.pem"
+
+function getDotEnvsPath() {
+  dotEnvsDirPath=$HOME$SLASH$DOT_ENVS_DIR
+}
+
+function getKeysPath() {
+  keysDirPath=$HOME$SLASH$KEYS_DIR
+}
+
+function getPublicServerPath() {
+  publicServerDirPath=$HOME$SLASH$PUBLIC_DIR
+}
+
+function createDir() {
+  print_status "Checking if $1 exists"
+  if [ -d $1 ]; then
+    print_status "$1 exists"
   else
-    echo -e "\e[31mYou shouldn't be running it outside a go project's directory\n exit 1\e[0m"
-    exit 1
+    print_status "$1 doesn't exist, creating it now"
+    mkdir $1
+    print_status "Directory created"
   fi
+  end_line
 }
 
-function checkIfProjectIsValid() {
-
-  goModfile=go.mod
-  
-  if test -f "$ASCII_FILE"; then
-    print_success "Found valid go project"
+function createFile() {
+  print_status "Checking if $1 exists"
+  if [ -f $1 ]; then
+    print_status "File $1 exists"
   else
-    print_error "Invalid directory/invalid go project found."
-    print_status "You must run this script from the project root directory as"
-    print_bold "bash repo_setup/scripts/setup_project.sh <your_project_name>"
-    print_error "exit 1"
-    exit 1
+    print_status "File $1 doesn't exist, creating it now"
+    touch $1
+    print_status "File created"
   fi
+  end_line
 }
 
-function createPRootAndOtherDirectories() {
-  print_info "Creating project root directories"
-  originalDir=$(pwd)
-  cd $HOME
-  
-  appDir=$1
+print_info "$(cat $ASCII_FILE)"
+end_line
+print_status "Setting up project..."
+end_line
+print_banner "Setting up dotenvs directory"
 
-  if [ ! -d "proot" ]; then
-    print_status "Creating proot directory"
-    mkdir "proot"
-  fi
+# Create $HOME/dotenvs directory if doesn't exist
+getDotEnvsPath
+createDir $dotEnvsDirPath
 
-  cd proot
-  if [ ! -d $appDir ]; then
-    print_status "Creating $HOME/$appDir directory"
-    mkdir $appDir
-  fi
+print_banner "Setting up dotenvs/app-name directory"
 
-  cd $appDir
+# Create $HOME/dotenvs/$APP_NAME directory
+appDotEnvDirPath=$dotEnvsDirPath$SLASH$APP_NAME
+createDir $appDotEnvDirPath
 
-  for i in "${environments[@]}"; do
+end_line
+print_banner "Setting up .env files for each environment with default properties"
 
-    print_header "Setting up $i environment"
-    if [ ! -d "$i" ]; then
-      print_status "Creating $HOME/$appDir/$i directory"
-      mkdir $i
-    fi
-    cd $i
+# Creating environment directories inside dotenvs/app-name/... 
+for env in  ${ENVIRONMENTS[@]};
+do
+  createDir $appDotEnvDirPath$SLASH$env
+  filePath=$appDotEnvDirPath$SLASH$env$SLASH$DOT_ENV_FILE
+  createFile $filePath
+  cp ".env.example" $filePath
+done
 
-    createConfigs "$HOME/$appDir/$i" $originalDir
-    createRSAKeys "$HOME/$appDir/$i" $originalDir
-    createPublicDirs "$HOME/$appDir/$i" $originalDir
+end_line
+print_banner "Setting up OpenSSL keys"
 
-    cd ..
-  done
-  
-  print_success "All requried directories and configs created"
-  cd $originalDir
-}
+# Create $HOME/keys directory if doesn't exist
+getKeysPath
+createDir $keysDirPath
 
-function createConfigs(){
-  if [ ! -d $configDir ]; then
-    print_status "Creating $1/$configDir directory"
-    mkdir $configDir
-  fi
-  cd $configDir
-  cp $2/.env.example .env
-  cd ..
-}
+end_line
 
-function createRSAKeys(){
-  if [ ! -d $keysDir ]; then
-    print_status "Creating $1/$keysDir directory"
-    mkdir $keysDir
-  fi
-  cd $keysDir
-  openssl genrsa -out pvt_access.pem 512
-  openssl rsa -in pvt_access.pem -outform PEM -pubout -out pub_access.pem
+# Create $HOME/keys/$APP_NAME directory
+appKeysDirPath=$keysDirPath$SLASH$APP_NAME
+createDir $appKeysDirPath
 
-  openssl genrsa -out pvt_refresh.pem 512
-  openssl rsa -in pvt_refresh.pem -outform PEM -pubout -out pub_refresh.pem
-  cd ..
-}
+# Creating environment directories inside $HOME/keys/app-name/...
+for env in  ${ENVIRONMENTS[@]};
+do
+  createDir $appKeysDirPath$SLASH$env
 
-function createPublicDirs(){
-  mkdir -p $publicDir
-  cd $publicDir
-  for i in "${reqPublicDirs[@]}"; do
-    if [ ! -d "$i" ]; then
-      print_status "Creating $1/$i directory"
-      mkdir $i
-    fi
-  done
-  cd ..
-}
+  # access-token keys
+  PvtAccessTokenKeyPath=$appKeysDirPath$SLASH$env$SLASH$PVT_ACCESS_KEY
+  PubAccessTokenKeyPath=$appKeysDirPath$SLASH$env$SLASH$PUB_ACCESS_KEY
 
-function createConfigsAndEnvs() {
-  print_status "Creating docker-compose files"
-}
+  openssl genrsa -out $PvtAccessTokenKeyPath $OPEN_SSL_KEY_SIZE_ACCESS_TOKEN
+  openssl rsa -in $PvtAccessTokenKeyPath -outform PEM -pubout -out $PubAccessTokenKeyPath
 
-## -- main 
+  # refresh-token key
+  PvtRefreshTokenKeyPath=$appKeysDirPath$SLASH$env$SLASH$PVT_REFRESH_KEY
+  PubRefreshTokenKeyPath=$appKeysDirPath$SLASH$env$SLASH$PUB_REFRESH_KEY
 
-isValidDirectory
+  openssl genrsa -out $PvtRefreshTokenKeyPath $OPEN_SSL_KEY_SIZE_REFRSH_TOKEN
+  openssl rsa -in $PvtRefreshTokenKeyPath -outform PEM -pubout -out $PubRefreshTokenKeyPath
 
-. repo_setup/scripts/utils.sh
+done
 
-checkIfProjectIsValid
-createPRootAndOtherDirectories $1
+end_line
+print_banner "Setting up public_server directories"
 
-# echo "------ Setting up your go-project -------"
+# Creating directories for public/uploads and public/static
+getPublicServerPath
+createDir $publicServerDirPath
 
-# cd $HOME
-# echo "Creating environment files and rsa keys in a separate file"
+appPublicServerPath=$publicServerDirPath$SLASH$APP_NAME
+createDir $appPublicServerPath
 
-# cp .env.example .env
+for pubDir in  ${PUBLIC_DIRECTORIES[@]};
+do
+  createDir $appPublicServerPath$SLASH$pubDir
+done
 
-# # generate keys
-# mkdir keys
-# cd keys
-
-# echo "------ Generating private and public keys-------"
-# openssl genrsa -out pvt_access.pem 512
-# openssl rsa -in pvt_access.pem -outform PEM -pubout -out pub_access.pem
-
-# openssl genrsa -out pvt_refresh.pem 512
-# openssl rsa -in pvt_refresh.pem -outform PEM -pubout -out pub_refresh.pem
-
-
-# echo "------ Your project has been setup, please star our repo if you like it. -------"
+end_line
+print_success "Thank you for using Go REST API Template. Happy coding!"
