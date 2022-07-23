@@ -9,7 +9,7 @@ CONFIG_DIR="config"
 KEYS_DIR="keys"
 PUBLIC_DIR="public_server"
 DOT_ENVS_DIR="dotenvs"
-APP_NAME="test"
+APP_NAME="go-rest-starter"
 DOT_ENV_FILE=".env"
 SLASH="/"
 
