@@ -41,6 +41,6 @@ func TestLoadJwtConfigDefault(t *testing.T) {
 
 	result := loadJwtConfig()
 
-	assert.Equal(HoursToSeconds(1), result.AccessTokenExpiry)
-	assert.Equal(HoursToSeconds(12), result.RefreshTokenExpiry)
+	assert.Equal(MinutesToSeconds(10), result.AccessTokenExpiry)
+	assert.Equal(HoursToSeconds(2), result.RefreshTokenExpiry)
 }
