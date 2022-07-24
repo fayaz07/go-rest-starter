@@ -38,10 +38,10 @@ func initAppConfig() {
 func loadAppConfig() (string, int) {
 	appEnv := getCurrentEnvironment()
 
-	appPort, err := strconv.Atoi(os.Getenv(appPort))
+	appPort, err := strconv.Atoi(os.Getenv(APP_PORT))
 	if err != nil {
-		log.Fatal("App port can't be parsed, setting to default port: 7000")
-		appPort = 7000
+		log.Printf("App port can't be parsed, setting to default port: %d\n", APP_DEFAULT_PORT)
+		appPort = APP_DEFAULT_PORT
 	}
 
 	log.Printf("Running on %s environment\n", appEnv)

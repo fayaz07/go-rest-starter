@@ -15,7 +15,7 @@ var _onceForEnv sync.Once
 
 func getCurrentEnvironment() string {
 	_onceForEnv.Do(func() {
-		env_pointer := flag.String(envConst, PROD_ENV, ALLOWED_ENVIRONMENTS_MSG)
+		env_pointer := flag.String(ENV_KEY, PROD_ENV, ALLOWED_ENVIRONMENTS_MSG)
 		flag.Parse()
 		c_env = *env_pointer
 	})

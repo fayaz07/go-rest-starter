@@ -1,8 +1,9 @@
 package config
 
 const (
-	appEnv  = "APP_ENV"
-	appPort = "APP_PORT"
+	APP_ENV          = "APP_ENV"
+	APP_PORT         = "APP_PORT"
+	APP_DEFAULT_PORT = 7000
 
 	// MongoDB
 	dBName     = "DB_NAME"
@@ -21,7 +22,7 @@ const (
 	REFRESH_TOKEN_EXPIRY_KEY = "JWT_REFRESH_EXPIRY"
 
 	// environments
-	envConst    = "env"
+	ENV_KEY     = "env"
 	PROD_ENV    = "prod"
 	TEST_ENV    = "test"
 	DEV_ENV     = "dev"
