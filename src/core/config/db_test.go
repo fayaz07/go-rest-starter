@@ -16,11 +16,11 @@ const (
 )
 
 func _setDbConfigMocks(t *testing.T) {
-	t.Setenv(dBName, mockDbName)
-	t.Setenv(dBHost, mockDbHost)
-	t.Setenv(dBPort, mockDbPort)
-	t.Setenv(dBUsername, mockDbUsername)
-	t.Setenv(dBPassword, mockDbPassword)
+	t.Setenv(DB_NAME, mockDbName)
+	t.Setenv(DB_HOST, mockDbHost)
+	t.Setenv(DB_PORT, mockDbPort)
+	t.Setenv(DB_USERNAME, mockDbUsername)
+	t.Setenv(DB_PASSWORD, mockDbPassword)
 }
 
 func TestLoadDbConfig(t *testing.T) {

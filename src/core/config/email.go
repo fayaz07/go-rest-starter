@@ -7,8 +7,8 @@ import (
 
 func loadSendGridConfig() *appTypes.SendGridConfig {
 	return &appTypes.SendGridConfig{
-		SgAPIKey:   os.Getenv(SgAPIKey),
-		SgEmail:    os.Getenv(SgEmail),
-		SgUsername: os.Getenv(SgUsername),
+		SgAPIKey:   os.Getenv(SG_API_KEY),
+		SgEmail:    os.Getenv(SG_EMAIL),
+		SgUsername: os.Getenv(SG_USERNAME),
 	}
 }
