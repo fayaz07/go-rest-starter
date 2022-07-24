@@ -49,7 +49,7 @@ func connectToDb(config *appTypes.DatabaseConfig) {
 	connectionURI := mongodbConnString(config)
 	log.Println(connectionURI)
 
-	ctx := helpers.GetContext()
+	ctx := helpers.GetDbConnectContext()
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(connectionURI))
 	if err != nil {
@@ -57,14 +57,14 @@ func connectToDb(config *appTypes.DatabaseConfig) {
 		panic(err)
 	}
 
-	err = client.Connect(ctx)
+	err = client.Connect(ctx.Ctx)
 	if err != nil {
 		log.Printf("Failed to connect to MongoDb cluster: %v", err)
 		panic(err)
 	}
 
 	// Force a connection to verify our connection string
-	err = client.Ping(ctx, nil)
+	err = client.Ping(ctx.Ctx, nil)
 	if err != nil {
 		log.Printf("Failed to ping cluster: %v", err)
 		panic(err)
@@ -84,6 +84,8 @@ func connectToDb(config *appTypes.DatabaseConfig) {
 	log.Println("injecting db instance to repository")
 	// db instance injection
 	repository.UseDb(_db)
+
+	ctx.Cancel()
 }
 
 func mongodbConnString(config *appTypes.DatabaseConfig) string {
