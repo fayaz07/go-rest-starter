@@ -12,7 +12,7 @@ install:
 	echo "Completed" 
 
 build:
-	go build src/main.go
+	go build -v ./...
 
 # server
 run: 
@@ -22,4 +22,7 @@ clean_cache:
 	go clean -testcache	
 
 test: clean_cache
+	go test ./src/... -coverprofile=coverage.out
+
+test_cov:  clean_cache
 	go test ./src/... -coverprofile=coverage.out; go tool cover -html=coverage.out
