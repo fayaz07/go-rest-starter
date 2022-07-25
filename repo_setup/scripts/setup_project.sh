@@ -1,29 +1,15 @@
 #!/bin/bash
 
 source ./repo_setup/scripts/utils.sh
+source ./repo_setup/scripts/readp.sh
 
-declare -a ENVIRONMENTS=("prod" "staging" "dev" "test")
-declare -a PUBLIC_DIRECTORIES=("uploads" "static")
-
-CONFIG_DIR="config"
-KEYS_DIR="keys"
-PUBLIC_DIR="public_server"
-DOT_ENVS_DIR="dotenvs"
-APP_NAME="go-rest-starter"
-DOT_ENV_FILE=".env"
+propertiesFile="./config.properties"
 SLASH="/"
 
-ASCII_FILE=repo_setup/scripts/ascii.txt
+loadProperties $propertiesFile
 
-# OPEN SSL KEYS, CONFIGS, FILE NAMES
-OPEN_SSL_KEY_SIZE_ACCESS_TOKEN=512
-OPEN_SSL_KEY_SIZE_REFRSH_TOKEN=1024
-
-PVT_ACCESS_KEY="pvt_a.pem"
-PUB_ACCESS_KEY="pub_a.pem"
-
-PVT_REFRESH_KEY="pvt_r.pem"
-PUB_REFRESH_KEY="pub_r.pem"
+declare -a PUBLIC_DIRECTORIES=($UPLOADS_PUBLIC_DIR $STATIC_PUBLIC_DIR)
+declare -a ENVIRONMENTS=("prod" "staging" "dev" "test")
 
 function getDotEnvsPath() {
   dotEnvsDirPath=$HOME$SLASH$DOT_ENVS_DIR
@@ -35,6 +21,10 @@ function getKeysPath() {
 
 function getPublicServerPath() {
   publicServerDirPath=$HOME$SLASH$PUBLIC_DIR
+}
+
+function getLogsPath() {
+  logsDirPath=$HOME$SLASH$LOGS_DIR
 }
 
 function createDir() {
@@ -139,4 +129,19 @@ do
 done
 
 end_line
+print_banner "Setting up app_logs directory"
+
+getLogsPath
+createDir $logsDirPath
+
+appLogsDirPath=$logsDirPath$SLASH$APP_NAME
+createDir $appLogsDirPath
+
+for env in  ${ENVIRONMENTS[@]};
+do
+  createDir $appLogsDirPath$SLASH$env
+done
+
+end_line
+
 print_success "Thank you for using Go REST API Template. Happy coding!"
