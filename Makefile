@@ -14,8 +14,11 @@ install:
 build:
 	go build -v ./...
 
-# server
 run: 
+	go run src/main.go --env=dev
+
+# server
+run_watch: 
 	reflex -r "\.go$" -s -- sh -c "go run src/main.go" 
 
 clean_cache:
