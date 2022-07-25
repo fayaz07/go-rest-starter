@@ -28,14 +28,14 @@ func setupOutput() {
 	}
 }
 
-func I(d ...interface{}) {
+func I(d interface{}) {
 	logger.Infoln(d)
 }
 
-func W(d ...interface{}) {
+func W(d interface{}) {
 	logger.Warnln(d)
 }
 
-func E(d ...interface{}) {
+func E(d interface{}) {
 	logger.Errorln(d)
 }
