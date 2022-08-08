@@ -8,19 +8,20 @@ all: install
 
 install:
 	echo "Installing go modules..." && \
+	go install github.com/cespare/reflex@latest && \
 	go mod download && \
 	echo "Completed" 
 
 build:
-	go build -v ./...
+	go build -v ./src/...
 
 run: 
 	go run src/main.go --env=dev
 
 # server
 run_watch: 
-	reflex -r "\.go$" -s -- sh -c "go run src/main.go" 
-
+	reflex -r "\.go$" -s -- sh -c "go run src/main.go"
+	
 clean_cache:
 	go clean -testcache	
 
