@@ -19,3 +19,5 @@
 !.vscode/settings.json
 
 *.DS_Store
+coverage.out
+cover.html

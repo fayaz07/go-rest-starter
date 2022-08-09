@@ -29,4 +29,4 @@ test: clean_cache
 	go test ./src/... -coverprofile=coverage.out
 
 test_cov:  clean_cache
-	go test ./src/... -coverprofile=coverage.out; go tool cover -html=coverage.out
+	go test ./src/... -coverprofile=coverage.out; go tool cover -o cover.html -html=coverage.out; open cover.html 

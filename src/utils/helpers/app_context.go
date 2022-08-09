@@ -24,8 +24,5 @@ func GetDbRWContext() *AppContext {
 // Will return the context
 func _getContext(ctx *AppContext, timeout time.Duration) *AppContext {
 	ctx.Ctx, ctx.cancelFunc = context.WithTimeout(context.Background(), timeout*time.Second)
-	if ctx.Ctx == nil {
-		panic("Failed to get context")
-	}
 	return ctx
 }
