@@ -2,7 +2,7 @@ package helpers
 
 import (
 	"bytes"
-	modelRef "go-rest-starter/src/api/models/req/auth"
+	modelRef "go-rest-starter/src/api/models/req"
 	"net/http"
 	"net/http/httptest"
 	"testing"

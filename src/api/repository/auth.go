@@ -1,8 +1,7 @@
 package repository
 
 import (
-	mappers "go-rest-starter/src/api/mappers"
-	reqModels "go-rest-starter/src/api/models/req/auth"
+	reqModels "go-rest-starter/src/api/models/req"
 )
 
 type authRepo BaseRepository
@@ -16,5 +15,5 @@ func GetAuthRepo() authRepo {
 // --- implementation
 
 func (a authRepo) Init(req reqModels.AuthInitReq) {
-	_clientRepoInstance.Save(mappers.AuthInitReqToClientModel(req))
+	_clientRepoInstance.Save(req.AuthInitReqToClientModel())
 }

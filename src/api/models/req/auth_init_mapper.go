@@ -1,12 +1,11 @@
-package mappers
+package req
 
 import (
-	model "go-rest-starter/src/api/models/db"
-	reqModels "go-rest-starter/src/api/models/req/auth"
+	dbModels "go-rest-starter/src/api/models/db"
 )
 
-func AuthInitReqToClientModel(data reqModels.AuthInitReq) model.ClientModel {
-	return model.ClientModel{
+func (data AuthInitReq) AuthInitReqToClientModel() dbModels.ClientModel {
+	return dbModels.ClientModel{
 		IP:      data.IP,
 		Device:  data.Device,
 		OS:      data.OS,

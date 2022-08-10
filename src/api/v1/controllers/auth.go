@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	reqModels "go-rest-starter/src/api/models/req/auth"
+	reqModels "go-rest-starter/src/api/models/req"
 	"go-rest-starter/src/api/repository"
 	"go-rest-starter/src/utils/constants"
 

@@ -1,12 +1,12 @@
 package helpers
 
 import (
-	modelRef "go-rest-starter/src/api/models/req/auth"
+	reqModel "go-rest-starter/src/api/models/req"
 
 	"github.com/gin-gonic/gin"
 )
 
-func ParseExtraClientInfo(req *gin.Context, d *modelRef.AuthInitReq) {
+func ParseExtraClientInfo(req *gin.Context, d *reqModel.AuthInitReq) {
 	d.IP = req.RemoteIP()
 
 	d.UserAgent = req.GetHeader("User-Agent")

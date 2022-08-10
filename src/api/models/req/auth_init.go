@@ -1,4 +1,4 @@
-package auth
+package req
 
 import (
 	validation "github.com/go-ozzo/ozzo-validation"
