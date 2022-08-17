@@ -31,7 +31,7 @@ func (ResponseWrapper) Error(message string, error interface{}) gin.H {
 
 func handledErrorResponse(message string, error interface{}) gin.H {
 	if error == nil {
-		return gin.H{consts.Status: consts.Success, consts.Message: message}
+		return gin.H{consts.Status: consts.Failed, consts.Message: message}
 	}
-	return gin.H{consts.Status: consts.Success, consts.Message: message, consts.Error: error}
+	return gin.H{consts.Status: consts.Failed, consts.Message: message, consts.Error: error}
 }
