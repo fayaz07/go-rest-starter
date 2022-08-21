@@ -3,7 +3,7 @@
 source ./repo_setup/scripts/utils.sh
 source ./repo_setup/scripts/readp.sh
 
-propertiesFile="./config.properties"
+propertiesFile="./settings.properties"
 SLASH="/"
 
 loadProperties $propertiesFile
