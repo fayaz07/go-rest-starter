@@ -13,7 +13,9 @@ func TestGetEnvFilePath(t *testing.T) {
 
 	t.Setenv("HOME", mockHome)
 
-	assert.Equal(mockHome+"/dotenvs/"+APP_NAME+"/"+PROD_ENV+"/.env", getEnvFilePath())
+	appSettings := GetAppSettings()
+
+	assert.Equal(mockHome+"/dotenvs/"+appSettings.AppName+"/"+PROD_ENV+"/.env", getEnvFilePath())
 }
 
 func TestGetEnvFilePathWithInvalidHomeDir(t *testing.T) {

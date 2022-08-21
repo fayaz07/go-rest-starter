@@ -4,6 +4,7 @@ import (
 	appTypes "go-rest-starter/src/core/types"
 	"log"
 	"path/filepath"
+	"strings"
 
 	"github.com/magiconair/properties"
 )
@@ -12,21 +13,17 @@ var appSettings appTypes.AppSettings
 
 const settingsFileName = "settings.properties"
 
-func init() {
-	loadSettings()
-}
+func getSettingsFilePath() string {
+	absolutePath, _ := filepath.Abs(settingsFileName)
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
+	// because when this file is being called from Test, the file should be accessible
+	return strings.Replace(absolutePath, "src/core/config/", "", 1)
 }
 
 func loadSettings() {
-	absolutePath, err := filepath.Abs(settingsFileName)
-	check(err)
+	filePath := getSettingsFilePath()
 
-	p := properties.MustLoadFile(absolutePath, properties.UTF8)
+	p := properties.MustLoadFile(filePath, properties.UTF8)
 	if err := p.Decode(&appSettings); err != nil {
 		log.Panic(err)
 	}

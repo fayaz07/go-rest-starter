@@ -8,12 +8,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const APP_NAME = "go-rest-starter"
-const ENV_FILE_NAME = ".env"
-const DOT_ENVS_FOLDER = "dotenvs"
 const ENV_FILE_PATH_STR = "%s/%s/%s/%s/%s"
 
 func loadEnvFile() {
+
+	loadSettings()
+
 	log.Println("Loading .env file")
 	filePath := getEnvFilePath()
 	log.Printf("Env file path: %s\n", filePath)
@@ -25,7 +25,15 @@ func loadEnvFile() {
 }
 
 func getEnvFilePath() string {
-	return fmt.Sprintf(ENV_FILE_PATH_STR, getHomeDir(), DOT_ENVS_FOLDER, APP_NAME, getCurrentEnvironment(), ENV_FILE_NAME)
+	appSettings := GetAppSettings()
+	return fmt.Sprintf(
+		ENV_FILE_PATH_STR,
+		getHomeDir(),
+		appSettings.DotEnvsDir,
+		appSettings.AppName,
+		getCurrentEnvironment(),
+		appSettings.DotEnvFile,
+	)
 }
 
 func getHomeDir() string {
