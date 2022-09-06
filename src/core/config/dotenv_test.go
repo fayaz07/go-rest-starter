@@ -9,33 +9,9 @@ import (
 func TestGetEnvFilePath(t *testing.T) {
 	assert := assert.New(t)
 
-	mockHome := "mock/home"
-
-	t.Setenv("HOME", mockHome)
-
 	appSettings := GetAppSettings()
 
-	assert.Equal(mockHome+"/dotenvs/"+appSettings.AppName+"/"+PROD_ENV+"/.env", getEnvFilePath())
-}
-
-func TestGetEnvFilePathWithInvalidHomeDir(t *testing.T) {
-	assert := assert.New(t)
-
-	mockHome := ""
-
-	t.Setenv("HOME", mockHome)
-
-	assert.Panics(func() { getEnvFilePath() })
-}
-
-func TestLoadEnvFileWithInvalidPath(t *testing.T) {
-	assert := assert.New(t)
-
-	mockHome := "mock/home"
-
-	t.Setenv("HOME", mockHome)
-
-	assert.Panics(func() { loadEnvFile() })
+	assert.Contains(appSettings.DotEnvFile, "dotenvs/"+appSettings.AppName+"/"+PROD_ENV+"/.env")
 }
 
 func TestLoadEnvFileWithValidPath(t *testing.T) {

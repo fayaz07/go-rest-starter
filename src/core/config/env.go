@@ -25,7 +25,8 @@ func getCurrentEnvironment() string {
 
 func validateEnv(env string) string {
 	if !helpers.Contains(ALLOWED_ENVIRONMENTS[:], env) {
-		log.P("Environment not allowed")
+		log.E("Environment not allowed")
+		panic("Environment not allowed")
 	}
 	return string(env)
 }

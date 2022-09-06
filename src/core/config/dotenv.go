@@ -15,6 +15,7 @@ func loadEnvFile() {
 
 	if err != nil {
 		log.P("Error loading .env file")
+		panic("Error loading .env file")
 	}
 }
 
@@ -26,6 +27,7 @@ func getHomeDir() string {
 	dirname, err := os.UserHomeDir()
 	if err != nil {
 		log.P(err)
+		panic(err)
 	}
 	return dirname
 }
