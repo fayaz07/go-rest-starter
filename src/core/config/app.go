@@ -21,7 +21,7 @@ func GetAppConfig() *appTypes.AppConfig {
 func initAppConfig() {
 
 	loadSettings()
-	log.SetupLogging()
+	log.SetupLogging(GetAppSettings())
 
 	log.I("Initialising application configuration")
 

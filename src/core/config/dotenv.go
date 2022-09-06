@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -22,15 +21,7 @@ func loadEnvFile() {
 }
 
 func getEnvFilePath() string {
-	appSettings := GetAppSettings()
-	return fmt.Sprintf(
-		ENV_FILE_PATH_STR,
-		getHomeDir(),
-		appSettings.DotEnvsDir,
-		appSettings.AppName,
-		getCurrentEnvironment(),
-		appSettings.DotEnvFile,
-	)
+	return GetAppSettings().DotEnvFile
 }
 
 func getHomeDir() string {

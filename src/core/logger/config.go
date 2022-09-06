@@ -1,21 +1,27 @@
 package logger
 
 import (
+	"fmt"
+	"go-rest-starter/src/core/types"
+	"time"
+
 	"github.com/sirupsen/logrus"
 	lumberjack "gopkg.in/natefinch/lumberjack.v2"
 )
 
-func SetupLogging() {
+const logFileFormat = "2006_January_02"
+
+func SetupLogging(settings types.AppSettings) {
 	_loggerOnce.Do(func() {
 		logger = *logrus.New()
 
-		setupOutput()
+		setupOutput(settings)
 	})
 }
 
-func setupOutput() {
+func setupOutput(settings types.AppSettings) {
 	logger.SetOutput(&lumberjack.Logger{
-		Filename:   "/Users/fayaz.mohammad/me/go-rest-starter/foo.log",
+		Filename:   fmt.Sprintf("%s/%s.log", settings.LogsDir, time.Now().Format(logFileFormat)),
 		MaxSize:    49,
 		MaxBackups: 1,
 		MaxAge:     7,

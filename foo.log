@@ -1,2 +1,0 @@
-t="2022-09-06T16:12:16+05:30" l=info m="Initialising application configuration" c="core/config/app.go#28"
-t="2022-09-06T16:12:16+05:30" l=info m="Running on dev environment" c="core/config/app.go#53"
