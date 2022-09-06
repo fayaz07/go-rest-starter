@@ -5,62 +5,87 @@ import (
 	"sync"
 
 	"github.com/sirupsen/logrus"
-	lumberjack "gopkg.in/natefinch/lumberjack.v2"
 )
 
 var _loggerOnce sync.Once
 var logger logrus.Logger
 
-func SetupLogging() {
-	_loggerOnce.Do(func() {
-		logger = *logrus.New()
-
-		setupOutput()
-	})
-}
-
-func setupOutput() {
-	logger.SetOutput(&lumberjack.Logger{
-		Filename:   "/Users/fayaz.mohammad/me/go-rest-starter/foo.log",
-		MaxSize:    49,
-		MaxBackups: 1,
-		MaxAge:     7,
-		Compress:   true,
-	})
+// --- info methods
+func i(d interface{}) {
+	c := getCaller()
+	go func() {
+		logger.WithField("c", trimFilePath(c)).Infoln(d)
+	}()
 }
 
 func I(d interface{}) {
-	go func() {
-		logger.Infoln(d)
-	}()
+	i(d)
 }
 
 func If(template string, d ...interface{}) {
-	go func() {
-		I(fmt.Sprintf(template, d...))
-	}()
+	i(fmt.Sprintf(template, d...))
 }
 
-func W(d interface{}) {
+// --- error methods
+func e(d interface{}) {
+	c := getCaller()
 	go func() {
-		logger.Warnln(d)
-	}()
-}
-
-func Wf(template string, d ...interface{}) {
-	go func() {
-		W(fmt.Sprintf(template, d...))
+		logger.WithField("c", trimFilePath(c)).Errorln(d)
 	}()
 }
 
 func E(d interface{}) {
-	go func() {
-		logger.Errorln(d)
-	}()
+	e(d)
 }
 
 func Ef(template string, d ...interface{}) {
+	e(fmt.Sprintf(template, d...))
+}
+
+// --- warn methods
+func w(d interface{}) {
+	c := getCaller()
 	go func() {
-		E(fmt.Sprintf(template, d...))
+		logger.WithField("c", trimFilePath(c)).Warnln(d)
 	}()
+}
+
+func W(d interface{}) {
+	w(d)
+}
+
+func Wf(template string, d ...interface{}) {
+	w(fmt.Sprintf(template, d...))
+}
+
+// --- Fatal methods
+func f(d interface{}) {
+	c := getCaller()
+	go func() {
+		logger.WithField("c", trimFilePath(c)).Fatalln(d)
+	}()
+}
+
+func F(d interface{}) {
+	f(d)
+}
+
+func Ff(template string, d ...interface{}) {
+	f(fmt.Sprintf(template, d...))
+}
+
+// --- Panic methods
+func p(d interface{}) {
+	c := getCaller()
+	go func() {
+		logger.WithField("c", trimFilePath(c)).Panicln(d)
+	}()
+}
+
+func P(d interface{}) {
+	p(d)
+}
+
+func Pf(template string, d ...interface{}) {
+	p(fmt.Sprintf(template, d...))
 }
