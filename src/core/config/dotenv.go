@@ -11,9 +11,6 @@ import (
 const ENV_FILE_PATH_STR = "%s/%s/%s/%s/%s"
 
 func loadEnvFile() {
-
-	loadSettings()
-
 	log.Println("Loading .env file")
 	filePath := getEnvFilePath()
 	log.Printf("Env file path: %s\n", filePath)

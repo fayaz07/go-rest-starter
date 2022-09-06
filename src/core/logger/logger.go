@@ -1,41 +1,66 @@
 package logger
 
 import (
-	config "go-rest-starter/src/core/config"
-	"os"
+	"fmt"
+	"sync"
 
 	"github.com/sirupsen/logrus"
+	lumberjack "gopkg.in/natefinch/lumberjack.v2"
 )
 
+var _loggerOnce sync.Once
 var logger logrus.Logger
 
 func SetupLogging() {
-	logger = *logrus.New()
-	setupOutput()
+	_loggerOnce.Do(func() {
+		logger = *logrus.New()
+
+		setupOutput()
+	})
 }
 
 func setupOutput() {
-	cEnv := config.GetAppConfig().AppEnv
-	if cEnv == config.PROD_ENV {
-		file, err := os.OpenFile("out.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		if err == nil {
-			logger.Out = file
-		} else {
-			panic("Failed to log to file, using default stderr")
-		}
-	} else {
-		logger.Out = os.Stdout
-	}
+	logger.SetOutput(&lumberjack.Logger{
+		Filename:   "/Users/fayaz.mohammad/me/go-rest-starter/foo.log",
+		MaxSize:    49,
+		MaxBackups: 1,
+		MaxAge:     7,
+		Compress:   true,
+	})
 }
 
 func I(d interface{}) {
-	logger.Infoln(d)
+	go func() {
+		logger.Infoln(d)
+	}()
+}
+
+func If(template string, d ...interface{}) {
+	go func() {
+		I(fmt.Sprintf(template, d...))
+	}()
 }
 
 func W(d interface{}) {
-	logger.Warnln(d)
+	go func() {
+		logger.Warnln(d)
+	}()
+}
+
+func Wf(template string, d ...interface{}) {
+	go func() {
+		W(fmt.Sprintf(template, d...))
+	}()
 }
 
 func E(d interface{}) {
-	logger.Errorln(d)
+	go func() {
+		logger.Errorln(d)
+	}()
+}
+
+func Ef(template string, d ...interface{}) {
+	go func() {
+		E(fmt.Sprintf(template, d...))
+	}()
 }
