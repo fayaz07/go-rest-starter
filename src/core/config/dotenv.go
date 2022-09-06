@@ -1,22 +1,20 @@
 package config
 
 import (
-	"log"
+	log "go-rest-starter/src/core/logger"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
-const ENV_FILE_PATH_STR = "%s/%s/%s/%s/%s"
-
 func loadEnvFile() {
-	log.Println("Loading .env file")
+	log.I("Loading .env file")
 	filePath := getEnvFilePath()
-	log.Printf("Env file path: %s\n", filePath)
+	log.If("Env file path: %s\n", filePath)
 	err := godotenv.Load(filePath)
 
 	if err != nil {
-		panic("Error loading .env file")
+		log.P("Error loading .env file")
 	}
 }
 
@@ -27,7 +25,7 @@ func getEnvFilePath() string {
 func getHomeDir() string {
 	dirname, err := os.UserHomeDir()
 	if err != nil {
-		panic(err)
+		log.P(err)
 	}
 	return dirname
 }

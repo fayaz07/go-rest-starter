@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+	log "go-rest-starter/src/core/logger"
 	"go-rest-starter/src/utils/helpers"
 	"sync"
 )
@@ -24,7 +25,7 @@ func getCurrentEnvironment() string {
 
 func validateEnv(env string) string {
 	if !helpers.Contains(ALLOWED_ENVIRONMENTS[:], env) {
-		panic("Environment not allowed")
+		log.P("Environment not allowed")
 	}
 	return string(env)
 }

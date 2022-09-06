@@ -1,32 +1,33 @@
 package core
 
 import (
-	"log"
+	log "go-rest-starter/src/core/logger"
 
 	"github.com/gin-gonic/gin"
 
 	config "go-rest-starter/src/core/config"
+	helpers "go-rest-starter/src/utils/helpers"
 )
 
 var server *gin.Engine
 
 func InitApplication() {
 	appConfig := config.GetAppConfig()
-	log.Println("#v", appConfig)
+	log.I(helpers.Pretty(appConfig))
 
-	log.Println("Connecting to database ....")
+	log.I("Connecting to database ....")
 	InitializeDatabseConn(appConfig.DB)
 	db := GetDbConnection()
 	if db != nil {
-		log.Println("Connected to database")
+		log.I("Connected to database")
 	} else {
-		log.Fatal("Failed to connect to database")
+		log.F("Failed to connect to database")
 	}
 
 	InitRedis()
 
 	server = gin.Default()
-	log.Println("Starting server")
+	log.I("Starting server")
 	InitializeServer(server)
-	log.Println("Server started")
+	log.I("Server started")
 }

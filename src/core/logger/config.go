@@ -24,7 +24,7 @@ func setupOutput(settings types.AppSettings) {
 		Filename:   fmt.Sprintf("%s/%s.log", settings.LogsDir, time.Now().Format(logFileFormat)),
 		MaxSize:    49,
 		MaxBackups: 1,
-		MaxAge:     7,
+		MaxAge:     1,
 		Compress:   true,
 	})
 
@@ -36,4 +36,8 @@ func setupOutput(settings types.AppSettings) {
 	}
 
 	logger.SetFormatter(&logrus.TextFormatter{QuoteEmptyFields: true, FullTimestamp: true, FieldMap: fieldMap})
+
+	logger.Infoln("------------------------------------------------------------------------------------------------------------------")
+	logger.Infof("--------------------------------------%s--------------------------------------------\n", time.Now().Format(logFileFormat))
+	logger.Infoln("------------------------------------------------------------------------------------------------------------------")
 }

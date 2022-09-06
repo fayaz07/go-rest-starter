@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
+	log "go-rest-starter/src/core/logger"
 	appTypes "go-rest-starter/src/core/types"
-	"log"
 	"path/filepath"
 	"strings"
 
@@ -29,7 +29,7 @@ func loadSettings() {
 
 	p := properties.MustLoadFile(filePath, properties.UTF8)
 	if err := p.Decode(&appSettings); err != nil {
-		log.Panic(err)
+		log.P(err)
 	}
 
 	homeDir := getHomeDir()
@@ -54,7 +54,7 @@ func loadSettings() {
 	appSettings.RefreshTokenPvtKey = fmt.Sprintf(TWO_DIR_APPEND_TEMPLATE, appSettings.KeysDir, appSettings.RefreshTokenPvtKey)
 	appSettings.RefreshTokenPubKey = fmt.Sprintf(TWO_DIR_APPEND_TEMPLATE, appSettings.KeysDir, appSettings.RefreshTokenPubKey)
 
-	log.Println("App settings loaded from " + settingsFileName)
+	log.I("App settings loaded from " + settingsFileName)
 }
 
 func GetAppSettings() appTypes.AppSettings {

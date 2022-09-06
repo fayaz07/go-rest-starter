@@ -2,9 +2,10 @@ package db
 
 import (
 	"context"
-	"log"
 	"sync"
 	"time"
+
+	log "go-rest-starter/src/core/logger"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -42,7 +43,7 @@ type ClientModel struct {
 
 func GetClientCollection(db *mongo.Database) *mongo.Collection {
 	once.Do(func() {
-		log.Println("trying to get database collection")
+		log.I("trying to get database collection")
 		clientCollection = db.Collection(CLIENT_COLLECTION)
 		// if clientCollection == nil {
 		// 	// log.Fatal("clientCollection is nil")
@@ -68,7 +69,7 @@ func createClientCollectionIndexes() {
 		models, opts)
 
 	if err != nil {
-		log.Fatal(err)
+		log.F(err)
 	}
 }
 

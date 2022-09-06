@@ -2,13 +2,13 @@ package db
 
 import (
 	"encoding/json"
-	"fmt"
+	log "go-rest-starter/src/core/logger"
 )
 
 func PrettyPrint(x interface{}) {
 	b, err := json.MarshalIndent(x, "", "  ")
 	if err != nil {
-		fmt.Println("error:", err)
+		log.Ef("error: %v", err)
 	}
-	fmt.Println(string(b))
+	log.I(string(b))
 }

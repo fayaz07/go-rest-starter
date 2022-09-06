@@ -1,9 +1,8 @@
 package repository
 
 import (
-	"fmt"
 	modelRef "go-rest-starter/src/api/models/db"
-	"log"
+	log "go-rest-starter/src/core/logger"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -17,7 +16,7 @@ func GetClientRepo() clientRepo {
 }
 
 func initClientColln() {
-	log.Println("Initializing client collection in repository")
+	log.I("Initializing client collection in repository")
 	_clientRepoInstance = clientRepo{
 		Name:  "ClientRepository",
 		model: modelRef.GetClientCollection(db),
@@ -32,7 +31,7 @@ func (c clientRepo) Save(data modelRef.ClientModel) (modelRef.ClientModel, error
 	if err != nil {
 		return modelRef.ClientModel{}, err
 	}
-	fmt.Println(ins)
+	log.I(ins)
 	return modelRef.ClientModel{}, nil
 }
 
@@ -42,6 +41,6 @@ func (c clientRepo) GetByIP(ip string) {
 	if err == nil {
 		result.Print()
 	} else {
-		fmt.Println(err)
+		log.E(err)
 	}
 }

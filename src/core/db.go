@@ -2,7 +2,7 @@ package core
 
 import (
 	"fmt"
-	"log"
+	log "go-rest-starter/src/core/logger"
 	"sync"
 
 	"go-rest-starter/src/api/repository"
@@ -47,29 +47,29 @@ func InitializeDatabseConn(config *appTypes.DatabaseConfig) {
 func connectToDb(config *appTypes.DatabaseConfig) {
 
 	connectionURI := mongodbConnString(config)
-	log.Println(connectionURI)
+	log.I(connectionURI)
 
 	ctx := helpers.GetDbConnectContext()
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(connectionURI))
 	if err != nil {
-		log.Printf("Failed to create MongoDb client: %v", err)
+		log.If("Failed to create MongoDb client: %v", err)
 		panic(err)
 	}
 
 	err = client.Connect(ctx.Ctx)
 	if err != nil {
-		log.Printf("Failed to connect to MongoDb cluster: %v", err)
+		log.If("Failed to connect to MongoDb cluster: %v", err)
 		panic(err)
 	}
 
 	// Force a connection to verify our connection string
 	err = client.Ping(ctx.Ctx, nil)
 	if err != nil {
-		log.Printf("Failed to ping cluster: %v", err)
+		log.If("Failed to ping cluster: %v", err)
 		panic(err)
 	} else {
-		log.Println("MongoDb: Ping-pong")
+		log.I("MongoDb: Ping-pong")
 	}
 
 	_db = client.Database(config.DbName)
@@ -79,9 +79,9 @@ func connectToDb(config *appTypes.DatabaseConfig) {
 	// //Perform InsertOne operation & validate against the error.
 	// _, err = collection.InsertOne(context.TODO(), bson.M{"name": "pi", "value": 3.14159})
 
-	log.Printf("Connected to MongoDB!")
+	log.If("Connected to MongoDB!")
 
-	log.Println("injecting db instance to repository")
+	log.I("injecting db instance to repository")
 	// db instance injection
 	repository.UseDb(_db)
 
