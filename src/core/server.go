@@ -4,6 +4,7 @@ import (
 	routers "go-rest-starter/src/api/v1/routers"
 	config "go-rest-starter/src/core/config"
 	log "go-rest-starter/src/core/logger"
+	"go-rest-starter/src/utils/constants"
 	"net/http"
 	"strconv"
 	"time"
@@ -86,11 +87,11 @@ func invalidRoutes() gin.HandlerFunc {
 
 func setGinMode() {
 	switch config.GetAppConfig().AppEnv {
-	case config.PROD_ENV:
+	case constants.PROD_ENV:
 		gin.SetMode(gin.ReleaseMode)
-	case config.DEV_ENV:
+	case constants.DEV_ENV:
 		gin.SetMode(gin.DebugMode)
-	case config.TEST_ENV, config.STAGING_ENV:
+	case constants.TEST_ENV, constants.STAGING_ENV:
 		gin.SetMode(gin.TestMode)
 	}
 }

@@ -6,6 +6,7 @@ import (
 
 	log "go-rest-starter/src/core/logger"
 	appTypes "go-rest-starter/src/core/types"
+	"go-rest-starter/src/utils/constants"
 )
 
 var _config appTypes.AppConfig
@@ -20,14 +21,18 @@ func GetAppConfig() *appTypes.AppConfig {
 
 func initAppConfig() {
 
+	appEnv := getCurrentEnvironment()
+
+	log.If("Running on %s environment", appEnv)
+
 	loadSettings()
-	log.SetupLogging(GetAppSettings())
+	log.SetupLogging(GetAppSettings(), appEnv)
 
 	log.I("Initialising application configuration")
 
 	loadEnvFile()
 
-	appEnv, appPort := loadAppConfig()
+	appPort := loadAppConfig()
 
 	_config = appTypes.AppConfig{
 		Initiated: true,
@@ -39,16 +44,11 @@ func initAppConfig() {
 	}
 }
 
-func loadAppConfig() (string, int) {
-	appEnv := getCurrentEnvironment()
-
-	appPort, err := strconv.Atoi(os.Getenv(APP_PORT))
+func loadAppConfig() int {
+	appPort, err := strconv.Atoi(os.Getenv(constants.APP_PORT))
 	if err != nil {
-		log.If("App port can't be parsed, setting to default port: %d", APP_DEFAULT_PORT)
-		appPort = APP_DEFAULT_PORT
+		log.If("App port can't be parsed, setting to default port: %d", constants.APP_DEFAULT_PORT)
+		appPort = constants.APP_DEFAULT_PORT
 	}
-
-	log.If("Running on %s environment", appEnv)
-
-	return appEnv, appPort
+	return appPort
 }

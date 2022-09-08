@@ -1,6 +1,7 @@
 package config
 
 import (
+	"go-rest-starter/src/utils/constants"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,9 +14,9 @@ func TestLoadSendGridConfig(t *testing.T) {
 	mockEmail := "mock@mock.com"
 	mockUsername := "mock_username"
 
-	t.Setenv(SG_API_KEY, mockApiKey)
-	t.Setenv(SG_EMAIL, mockEmail)
-	t.Setenv(SG_USERNAME, mockUsername)
+	t.Setenv(constants.SG_API_KEY, mockApiKey)
+	t.Setenv(constants.SG_EMAIL, mockEmail)
+	t.Setenv(constants.SG_USERNAME, mockUsername)
 
 	result := loadSendGridConfig()
 	assert.Equal(mockApiKey, result.SgAPIKey)

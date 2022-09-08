@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"go-rest-starter/src/utils/constants"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -16,11 +17,11 @@ const (
 )
 
 func _setDbConfigMocks(t *testing.T) {
-	t.Setenv(DB_NAME, mockDbName)
-	t.Setenv(DB_HOST, mockDbHost)
-	t.Setenv(DB_PORT, mockDbPort)
-	t.Setenv(DB_USERNAME, mockDbUsername)
-	t.Setenv(DB_PASSWORD, mockDbPassword)
+	t.Setenv(constants.DB_NAME, mockDbName)
+	t.Setenv(constants.DB_HOST, mockDbHost)
+	t.Setenv(constants.DB_PORT, mockDbPort)
+	t.Setenv(constants.DB_USERNAME, mockDbUsername)
+	t.Setenv(constants.DB_PASSWORD, mockDbPassword)
 }
 
 func TestLoadDbConfig(t *testing.T) {
@@ -28,7 +29,7 @@ func TestLoadDbConfig(t *testing.T) {
 
 	_setDbConfigMocks(t)
 
-	result := loadDbConfig(PROD_ENV)
+	result := loadDbConfig(constants.PROD_ENV)
 
 	assert.Equal(mockDbName, result.DbName)
 	assert.Equal(mockDbHost, result.DbHost)
@@ -42,15 +43,15 @@ func TestLoadDbConfigDbNames(t *testing.T) {
 
 	_setDbConfigMocks(t)
 
-	result := loadDbConfig(PROD_ENV)
+	result := loadDbConfig(constants.PROD_ENV)
 	assert.Equal(mockDbName, result.DbName)
 
-	result = loadDbConfig(DEV_ENV)
-	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, DEV_ENV), result.DbName)
+	result = loadDbConfig(constants.DEV_ENV)
+	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, constants.DEV_ENV), result.DbName)
 
-	result = loadDbConfig(STAGING_ENV)
-	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, STAGING_ENV), result.DbName)
+	result = loadDbConfig(constants.STAGING_ENV)
+	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, constants.STAGING_ENV), result.DbName)
 
-	result = loadDbConfig(TEST_ENV)
-	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, TEST_ENV), result.DbName)
+	result = loadDbConfig(constants.TEST_ENV)
+	assert.Equal(fmt.Sprintf(DB_NAME_TEMPLATE, mockDbName, constants.TEST_ENV), result.DbName)
 }

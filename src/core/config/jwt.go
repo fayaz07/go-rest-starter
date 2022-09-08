@@ -2,6 +2,7 @@ package config
 
 import (
 	appTypes "go-rest-starter/src/core/types"
+	"go-rest-starter/src/utils/constants"
 	"os"
 	"time"
 )
@@ -24,13 +25,13 @@ func loadJwtConfig() *appTypes.JwtConfig {
 	var a_exp int = HoursToSeconds(1)
 	var b_exp int = HoursToSeconds(12)
 
-	a, err := time.ParseDuration(os.Getenv(ACCESS_TOKEN_EXPIRY_KEY))
+	a, err := time.ParseDuration(os.Getenv(constants.ACCESS_TOKEN_EXPIRY_KEY))
 
 	if err == nil {
 		a_exp = int(a.Seconds())
 	}
 
-	b, err := time.ParseDuration(os.Getenv(REFRESH_TOKEN_EXPIRY_KEY))
+	b, err := time.ParseDuration(os.Getenv(constants.REFRESH_TOKEN_EXPIRY_KEY))
 
 	if err == nil {
 		b_exp = int(b.Seconds())

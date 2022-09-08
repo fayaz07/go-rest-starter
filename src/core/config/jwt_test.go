@@ -1,6 +1,7 @@
 package config
 
 import (
+	"go-rest-starter/src/utils/constants"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,8 +13,8 @@ func TestLoadJwtConfigMinutes(t *testing.T) {
 	mockAccessTokenExp := "10m"
 	mockRefreshTokenExp := "20m"
 
-	t.Setenv(ACCESS_TOKEN_EXPIRY_KEY, mockAccessTokenExp)
-	t.Setenv(REFRESH_TOKEN_EXPIRY_KEY, mockRefreshTokenExp)
+	t.Setenv(constants.ACCESS_TOKEN_EXPIRY_KEY, mockAccessTokenExp)
+	t.Setenv(constants.REFRESH_TOKEN_EXPIRY_KEY, mockRefreshTokenExp)
 
 	result := loadJwtConfig()
 
@@ -27,8 +28,8 @@ func TestLoadJwtConfigHours(t *testing.T) {
 	mockAccessTokenExp := "1h"
 	mockRefreshTokenExp := "2h"
 
-	t.Setenv(ACCESS_TOKEN_EXPIRY_KEY, mockAccessTokenExp)
-	t.Setenv(REFRESH_TOKEN_EXPIRY_KEY, mockRefreshTokenExp)
+	t.Setenv(constants.ACCESS_TOKEN_EXPIRY_KEY, mockAccessTokenExp)
+	t.Setenv(constants.REFRESH_TOKEN_EXPIRY_KEY, mockRefreshTokenExp)
 
 	result := loadJwtConfig()
 

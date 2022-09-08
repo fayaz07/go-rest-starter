@@ -11,7 +11,7 @@ import (
 
 const logFileFormat = "2006_January_02"
 
-func SetupLogging(settings types.AppSettings) {
+func SetupLogging(settings types.AppSettings, env string) {
 	_loggerOnce.Do(func() {
 		logger = *logrus.New()
 

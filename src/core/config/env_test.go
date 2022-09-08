@@ -1,6 +1,7 @@
 package config
 
 import (
+	"go-rest-starter/src/utils/constants"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,7 +10,7 @@ import (
 func TestGetCurrentEnvWithNoFlag(t *testing.T) {
 	assert := assert.New(t)
 
-	assert.Equal(PROD_ENV, getCurrentEnvironment())
+	assert.Equal(constants.PROD_ENV, getCurrentEnvironment())
 }
 
 func TestValidateEnvWithInvalidFlag(t *testing.T) {
@@ -21,27 +22,27 @@ func TestValidateEnvWithInvalidFlag(t *testing.T) {
 func TestValidateEnvWithDevEnv(t *testing.T) {
 	assert := assert.New(t)
 
-	assert.Equal(DEV_ENV, validateEnv(DEV_ENV))
-	assert.NotPanics(func() { validateEnv(DEV_ENV) })
+	assert.Equal(constants.DEV_ENV, validateEnv(constants.DEV_ENV))
+	assert.NotPanics(func() { validateEnv(constants.DEV_ENV) })
 }
 
 func TestValidateEnvWithProdEnv(t *testing.T) {
 	assert := assert.New(t)
 
-	assert.Equal(PROD_ENV, validateEnv(PROD_ENV))
-	assert.NotPanics(func() { validateEnv(PROD_ENV) })
+	assert.Equal(constants.PROD_ENV, validateEnv(constants.PROD_ENV))
+	assert.NotPanics(func() { validateEnv(constants.PROD_ENV) })
 }
 
 func TestValidateEnvWithTestEnv(t *testing.T) {
 	assert := assert.New(t)
 
-	assert.Equal(TEST_ENV, validateEnv(TEST_ENV))
-	assert.NotPanics(func() { validateEnv(TEST_ENV) })
+	assert.Equal(constants.TEST_ENV, validateEnv(constants.TEST_ENV))
+	assert.NotPanics(func() { validateEnv(constants.TEST_ENV) })
 }
 
 func TestValidateEnvWithStagingEnv(t *testing.T) {
 	assert := assert.New(t)
 
-	assert.Equal(STAGING_ENV, validateEnv(STAGING_ENV))
-	assert.NotPanics(func() { validateEnv(STAGING_ENV) })
+	assert.Equal(constants.STAGING_ENV, validateEnv(constants.STAGING_ENV))
+	assert.NotPanics(func() { validateEnv(constants.STAGING_ENV) })
 }
