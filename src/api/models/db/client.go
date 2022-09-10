@@ -69,7 +69,7 @@ func createClientCollectionIndexes() {
 		models, opts)
 
 	if err != nil {
-		log.F(err)
+		log.F(err.Error())
 	}
 }
 

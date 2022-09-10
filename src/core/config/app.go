@@ -26,7 +26,7 @@ func initAppConfig() {
 	log.If("Running on %s environment", appEnv)
 
 	loadSettings()
-	log.SetupLogging(GetAppSettings(), appEnv)
+	log.SetupLogging(GetAppSettings())
 
 	log.I("Initialising application configuration")
 

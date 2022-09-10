@@ -31,7 +31,7 @@ func (c clientRepo) Save(data modelRef.ClientModel) (modelRef.ClientModel, error
 	if err != nil {
 		return modelRef.ClientModel{}, err
 	}
-	log.I(ins)
+	log.If("%v", ins)
 	return modelRef.ClientModel{}, nil
 }
 
@@ -41,6 +41,6 @@ func (c clientRepo) GetByIP(ip string) {
 	if err == nil {
 		result.Print()
 	} else {
-		log.E(err)
+		log.E(err.Error())
 	}
 }

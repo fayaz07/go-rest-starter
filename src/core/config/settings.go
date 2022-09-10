@@ -29,7 +29,7 @@ func loadSettings() {
 
 	p := properties.MustLoadFile(filePath, properties.UTF8)
 	if err := p.Decode(&appSettings); err != nil {
-		log.P(err)
+		log.P(err.Error())
 	}
 
 	homeDir := getHomeDir()

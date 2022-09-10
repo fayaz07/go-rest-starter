@@ -4,21 +4,22 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var _loggerOnce sync.Once
-var logger logrus.Logger
+var logger *zap.Logger
 
 // --- info methods
-func i(d interface{}) {
+func i(d string) {
 	c := getCaller()
 	go func() {
-		logger.WithField("c", trimFilePath(c)).Infoln(d)
+		logger.Info(d, callerField(c))
 	}()
 }
 
-func I(d interface{}) {
+func I(d string) {
 	i(d)
 }
 
@@ -27,14 +28,14 @@ func If(template string, d ...interface{}) {
 }
 
 // --- error methods
-func e(d interface{}) {
+func e(d string) {
 	c := getCaller()
 	go func() {
-		logger.WithField("c", trimFilePath(c)).Errorln(d)
+		logger.Error(d, callerField(c))
 	}()
 }
 
-func E(d interface{}) {
+func E(d string) {
 	e(d)
 }
 
@@ -43,14 +44,14 @@ func Ef(template string, d ...interface{}) {
 }
 
 // --- warn methods
-func w(d interface{}) {
+func w(d string) {
 	c := getCaller()
 	go func() {
-		logger.WithField("c", trimFilePath(c)).Warnln(d)
+		logger.Warn(d, callerField(c))
 	}()
 }
 
-func W(d interface{}) {
+func W(d string) {
 	w(d)
 }
 
@@ -59,14 +60,14 @@ func Wf(template string, d ...interface{}) {
 }
 
 // --- Fatal methods
-func f(d interface{}) {
+func f(d string) {
 	c := getCaller()
 	go func() {
-		logger.WithField("c", trimFilePath(c)).Fatalln(d)
+		logger.Fatal(d, callerField(c))
 	}()
 }
 
-func F(d interface{}) {
+func F(d string) {
 	f(d)
 }
 
@@ -75,17 +76,21 @@ func Ff(template string, d ...interface{}) {
 }
 
 // --- Panic methods
-func p(d interface{}) {
+func p(d string) {
 	c := getCaller()
 	go func() {
-		logger.WithField("c", trimFilePath(c)).Panicln(d)
+		logger.Panic(d, callerField(c))
 	}()
 }
 
-func P(d interface{}) {
+func P(d string) {
 	p(d)
 }
 
 func Pf(template string, d ...interface{}) {
 	p(fmt.Sprintf(template, d...))
+}
+
+func callerField(c string) zap.Field {
+	return zapcore.Field{Key: "c", String: trimFilePath(c)}
 }

@@ -40,3 +40,8 @@ const (
 	DEV_ENV     = "dev"
 	STAGING_ENV = "staging"
 )
+
+// Timestamp layouts
+const (
+	LogFilenameFormat = "2006_01_02_Mon_15_04_PM"
+)
