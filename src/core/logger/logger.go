@@ -9,7 +9,7 @@ import (
 )
 
 var _loggerOnce sync.Once
-var logger *zap.Logger
+var logger *zap.Logger = buildTestLogger()
 
 // --- info methods
 func i(d string) {
@@ -92,5 +92,5 @@ func Pf(template string, d ...interface{}) {
 }
 
 func callerField(c string) zap.Field {
-	return zapcore.Field{Key: "c", String: trimFilePath(c)}
+	return zapcore.Field{Key: "c", Type: zapcore.StringType, String: trimFilePath(c)}
 }

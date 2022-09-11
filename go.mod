@@ -9,12 +9,14 @@ require (
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/joho/godotenv v1.3.0
 	github.com/magiconair/properties v1.8.6
-	github.com/sirupsen/logrus v1.9.0
 	github.com/stretchr/testify v1.8.0
 	go.mongodb.org/mongo-driver v1.5.3
 )
 
-require gopkg.in/natefinch/lumberjack.v2 v2.0.0
+require (
+	go.uber.org/zap v1.19.0
+	gopkg.in/natefinch/lumberjack.v2 v2.0.0
+)
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
@@ -45,8 +47,8 @@ require (
 	github.com/xdg-go/stringprep v1.0.2 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
 	go.uber.org/atomic v1.10.0 // indirect
+	go.uber.org/goleak v1.2.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	go.uber.org/zap v1.23.0 // indirect
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781 // indirect
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9 // indirect

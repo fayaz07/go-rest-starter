@@ -37,7 +37,7 @@ func getZapConfig(settings types.AppSettings) zapcore.Core {
 	encoder := zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
 
 	logRotateWriter := zapcore.AddSync(&lumberjack.Logger{
-		Filename: fmt.Sprintf(logFileTemplate, settings.LogsDir, time.Now().Format(constants.LogFilenameFormat)),
+		Filename: getLogFileDir(settings),
 		// so that log files are backed up after size limit is reached and are not deleted.
 		MaxSize:    50, // megabytes
 		MaxBackups: 0,
@@ -49,6 +49,13 @@ func getZapConfig(settings types.AppSettings) zapcore.Core {
 		zapcore.NewCore(consoleEncoder, consoleDebugging, lowPriority),
 		zapcore.NewCore(encoder, logRotateWriter, zapcore.DebugLevel),
 	)
+}
+
+func getLogFileDir(settings types.AppSettings) string {
+	if settings.LogsDir == "" {
+		return "./temp/temp.log"
+	}
+	return fmt.Sprintf(logFileTemplate, settings.LogsDir, time.Now().Format(constants.LogFilenameFormat))
 }
 
 func logSetupDone() {
