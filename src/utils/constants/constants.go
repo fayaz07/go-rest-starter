@@ -43,5 +43,6 @@ const (
 
 // Timestamp layouts
 const (
-	LogFilenameFormat = "2006_01_02_Mon_15_04_PM"
+	// 2006_01_02_Mon_15_04_PM
+	LogFilenameFormat = "2006_01_02_Mon"
 )

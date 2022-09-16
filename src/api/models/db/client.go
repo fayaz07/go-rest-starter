@@ -13,7 +13,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var once sync.Once
 var clientCollection *mongo.Collection
 
 const CLIENT_COLLECTION = "clients"
@@ -42,6 +41,7 @@ type ClientModel struct {
 }
 
 func GetClientCollection(db *mongo.Database) *mongo.Collection {
+	var once sync.Once
 	once.Do(func() {
 		log.I("trying to get database collection")
 		clientCollection = db.Collection(CLIENT_COLLECTION)
