@@ -34,7 +34,7 @@ func getZapConfig(settings types.AppSettings) zapcore.Core {
 
 	consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
 
-	encoder := zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
+	fileEncoder := zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
 
 	logRotateWriter := zapcore.AddSync(&lumberjack.Logger{
 		Filename: getLogFileDir(settings),
@@ -45,9 +45,9 @@ func getZapConfig(settings types.AppSettings) zapcore.Core {
 	})
 
 	return zapcore.NewTee(
-		zapcore.NewCore(consoleEncoder, consoleErrors, highPriority),
+		zapcore.NewCore(fileEncoder, logRotateWriter, highPriority),
 		zapcore.NewCore(consoleEncoder, consoleDebugging, lowPriority),
-		zapcore.NewCore(encoder, logRotateWriter, zapcore.DebugLevel),
+		zapcore.NewCore(consoleEncoder, consoleErrors, highPriority),
 	)
 }
 
