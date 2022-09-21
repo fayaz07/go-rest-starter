@@ -7,7 +7,11 @@ import (
 )
 
 type SessionModel struct {
-	ClientId  primitive.ObjectID `json:"clientId"`
+	ID        primitive.ObjectID `json:"id" binding:"required" bson:"_id,omitempty"`
 	CreatedAt time.Time          `json:"createdAt" bson:"createdAt,omitempty"`
-	AuthType  string             `json:"authType" bson:"authType"`
+
+	AuthType string       `json:"authType" bson:"authType"`
+	IP       string       `json:"ip" bson:"ip"`
+	DeviceID string       `json:"devId" bson:"devId"`
+	Events   []EventModel `json:"events" bson:"events"`
 }

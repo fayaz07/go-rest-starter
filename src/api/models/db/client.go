@@ -19,8 +19,8 @@ const CLIENT_COLLECTION = "clients"
 
 type ClientModel struct {
 	ID        primitive.ObjectID `json:"id" binding:"required" bson:"_id,omitempty"`
-	CreatedAt time.Time          `bson:"createdAt,omitempty" json:"createdAt"`
-	UpdatedAt time.Time          `bson:"updatedAt,omitempty" json:"updatedAt"`
+	CreatedAt time.Time          `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt time.Time          `json:"updatedAt" bson:"updatedAt,omitempty"`
 
 	IP      string `json:"ip" binding:"required" bson:"ip"`
 	Device  string `json:"device" binding:"required" bson:"device"`
