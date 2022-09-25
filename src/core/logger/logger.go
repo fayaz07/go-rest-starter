@@ -11,6 +11,10 @@ import (
 var _loggerOnce sync.Once
 var logger *zap.Logger = buildTestLogger()
 
+func GetLogger() *zap.Logger {
+	return logger
+}
+
 // --- info methods
 func i(d string) {
 	c := getCaller()

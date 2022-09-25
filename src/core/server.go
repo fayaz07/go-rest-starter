@@ -1,6 +1,8 @@
 package core
 
 import (
+	ginzap "github.com/gin-contrib/zap"
+
 	routers "go-rest-starter/src/api/v1/routers"
 	config "go-rest-starter/src/core/config"
 	log "go-rest-starter/src/core/logger"
@@ -21,10 +23,14 @@ var _lastHealthResult = gin.H{}
 func InitializeServer(r *gin.Engine) {
 	//	e.InitEmailConfig()
 
+	logger := log.GetLogger()
+
 	log.I("Starting GIN Server...")
 	setGinMode()
 
-	r.Use(gin.Recovery())
+	r.Use(ginzap.Ginzap(logger, time.RFC3339, true))
+
+	r.Use(ginzap.RecoveryWithZap(logger, true))
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000", "http://127.0.0.1", "http://127.0.0.1:7001"},
