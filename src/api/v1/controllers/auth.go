@@ -24,7 +24,7 @@ func GetAuthController() auth {
 var _authRepo = repository.GetAuthRepo()
 
 // Controller functions implementation start here
-func (auth) Init() gin.HandlerFunc {
+func (auth) InitSession() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req reqModels.AuthInitReq
 
@@ -40,7 +40,7 @@ func (auth) Init() gin.HandlerFunc {
 			return
 		}
 
-		_authRepo.Init(req)
+		_authRepo.InitSession(req)
 
 		c.JSON(http.StatusOK, resWrapper.Success("This will init auth", nil))
 		c.Done()

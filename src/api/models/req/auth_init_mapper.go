@@ -1,24 +1,35 @@
 package req
 
 import (
+	"errors"
 	dbModels "go-rest-starter/src/api/models/db"
 )
 
-func (data AuthInitReq) AuthInitReqToClientModel() dbModels.ClientModel {
-	return dbModels.ClientModel{
-		IP:      data.IP,
-		Device:  data.Device,
-		OS:      data.OS,
-		Version: data.Version,
-
-		Model:        data.Model,
-		Manufacturer: data.Manufacturer,
-		Connection:   data.Connection,
-
-		UserAgent: data.UserAgent,
-		Host:      data.Host,
-		Browser:   data.Browser,
-
-		Referer: data.Referer,
+func (data AuthInitReq) AuthInitReqToDeviceModel() (dbModels.DeviceModel, error) {
+	switch data.Device {
+	case dbModels.MOBILE_CLIENT:
+		return data.buildMobileDevice(), nil
+	case dbModels.DESKTOP_CLIENT:
+		return data.buildDesktopDevice(), nil
+	case dbModels.WEB_CLIENT:
+		return data.buildWebDevice(), nil
+	default:
+		return dbModels.DeviceModel{}, errors.New("unsupported device type")
 	}
+}
+
+func (data AuthInitReq) buildMobileDevice() dbModels.DeviceModel {
+	return dbModels.NewMobileDevice(data.OS, data.OSVersion,
+		data.ClientVersion, data.Manufacturer, data.Model)
+}
+
+func (data AuthInitReq) buildDesktopDevice() dbModels.DeviceModel {
+	return dbModels.NewDesktopDevice(data.OS, data.OSVersion,
+		data.ClientVersion, data.Manufacturer, data.Model)
+}
+
+func (data AuthInitReq) buildWebDevice() dbModels.DeviceModel {
+	return dbModels.NewWebDevice(data.OS, data.OSVersion,
+		data.ClientVersion, data.Manufacturer, data.Model,
+		data.UserAgent, data.UserAgentVersion, data.Referer)
 }

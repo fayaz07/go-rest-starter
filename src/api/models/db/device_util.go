@@ -1,5 +1,11 @@
 package db
 
+const (
+	MOBILE_CLIENT  = "mobile"
+	DESKTOP_CLIENT = "desktop"
+	WEB_CLIENT     = "web"
+)
+
 func NewMobileDevice(
 	os string,
 	osVersion string,
@@ -25,6 +31,7 @@ func NewWebDevice(
 	model string,
 	userAgent string,
 	userAgentVersion string,
+	referer string,
 ) DeviceModel {
 	return DeviceModel{
 		Type:             WEB_CLIENT,
@@ -35,6 +42,7 @@ func NewWebDevice(
 		Model:            model,
 		UserAgent:        userAgent,
 		UserAgentVersion: userAgentVersion,
+		Referer:          referer,
 	}
 }
 
@@ -56,13 +64,29 @@ func NewDesktopDevice(
 }
 
 func (m DeviceModel) IsMobile() bool {
-	return m.Type == MOBILE_CLIENT
+	return IsMobile(m.Type)
+}
+
+func IsMobile(s string) bool {
+	return s == MOBILE_CLIENT
 }
 
 func (m DeviceModel) IsDesktop() bool {
-	return m.Type == DESKTOP_CLIENT
+	return IsDesktop(m.Type)
+}
+
+func IsDesktop(s string) bool {
+	return s == DESKTOP_CLIENT
 }
 
 func (m DeviceModel) IsWeb() bool {
-	return m.Type == WEB_CLIENT
+	return IsWeb(m.Type)
+}
+
+func IsWeb(s string) bool {
+	return s == WEB_CLIENT
+}
+
+func (m DeviceModel) Print() {
+	PrettyPrint(m)
 }
