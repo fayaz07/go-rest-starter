@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	models "go-rest-starter/src/api/models/db"
 	log "go-rest-starter/src/core/logger"
 
@@ -17,7 +18,7 @@ func GetSessionRepo() sessionRepo {
 
 func initSessionCollection() {
 	log.I("Initializing device collection in repository")
-	_deviceRepoInstance = deviceRepo{
+	_sessionRepoInstance = sessionRepo{
 		Name:  "sessionRepo",
 		model: models.GetSessionCollection(db),
 	}
@@ -25,19 +26,25 @@ func initSessionCollection() {
 
 // --- implementation
 
-func (r sessionRepo) GetSession(ip string, device models.DeviceModel) (*models.SessionModel, error) {
+func (r sessionRepo) GetSession(ip string) (*models.SessionModel, error) {
 	doc, err := r.GetByIP(ip)
 	if err == nil {
 		return doc, nil
 	}
 
-	return &models.SessionModel{}, nil
+	return r.createSession(ip)
 }
 
 func (r sessionRepo) createSession(ip string) (*models.SessionModel, error) {
 	ctx := GetRWCtx()
 	data := models.SessionModel{IP: ip}
-	r.model.InsertOne(ctx.Ctx, data)
+	result, err := r.model.InsertOne(ctx.Ctx, data)
+	ctx.Cancel()
+	if err == nil {
+		data.ID, _ = id(result)
+		return &data, nil
+	}
+	return &data, errors.New("unable to insert record into session table")
 }
 
 func (r sessionRepo) GetByIP(ip string) (*models.SessionModel, error) {

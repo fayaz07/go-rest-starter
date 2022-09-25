@@ -1,10 +1,14 @@
 package db
 
-const (
-	MOBILE_CLIENT  = "mobile"
-	DESKTOP_CLIENT = "desktop"
-	WEB_CLIENT     = "web"
+import (
+	"go-rest-starter/src/api/models/consts"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+func IsValidDevice(d string) bool {
+	return d == consts.MOBILE_CLIENT || d == consts.DESKTOP_CLIENT || d == consts.WEB_CLIENT
+}
 
 func NewMobileDevice(
 	os string,
@@ -12,9 +16,11 @@ func NewMobileDevice(
 	clientVersion string,
 	maker string,
 	model string,
+	sId primitive.ObjectID,
 ) DeviceModel {
 	return DeviceModel{
-		Type:          MOBILE_CLIENT,
+		SessionID:     sId,
+		Type:          consts.MOBILE_CLIENT,
 		OS:            os,
 		OSVersion:     osVersion,
 		ClientVersion: clientVersion,
@@ -32,9 +38,11 @@ func NewWebDevice(
 	userAgent string,
 	userAgentVersion string,
 	referer string,
+	sId primitive.ObjectID,
 ) DeviceModel {
 	return DeviceModel{
-		Type:             WEB_CLIENT,
+		SessionID:        sId,
+		Type:             consts.WEB_CLIENT,
 		OS:               os,
 		OSVersion:        osVersion,
 		ClientVersion:    clientVersion,
@@ -52,9 +60,11 @@ func NewDesktopDevice(
 	clientVersion string,
 	maker string,
 	model string,
+	sId primitive.ObjectID,
 ) DeviceModel {
 	return DeviceModel{
-		Type:          DESKTOP_CLIENT,
+		SessionID:     sId,
+		Type:          consts.DESKTOP_CLIENT,
 		OS:            os,
 		OSVersion:     osVersion,
 		ClientVersion: clientVersion,
@@ -68,7 +78,7 @@ func (m DeviceModel) IsMobile() bool {
 }
 
 func IsMobile(s string) bool {
-	return s == MOBILE_CLIENT
+	return s == consts.MOBILE_CLIENT
 }
 
 func (m DeviceModel) IsDesktop() bool {
@@ -76,7 +86,7 @@ func (m DeviceModel) IsDesktop() bool {
 }
 
 func IsDesktop(s string) bool {
-	return s == DESKTOP_CLIENT
+	return s == consts.DESKTOP_CLIENT
 }
 
 func (m DeviceModel) IsWeb() bool {
@@ -84,7 +94,7 @@ func (m DeviceModel) IsWeb() bool {
 }
 
 func IsWeb(s string) bool {
-	return s == WEB_CLIENT
+	return s == consts.WEB_CLIENT
 }
 
 func (m DeviceModel) Print() {

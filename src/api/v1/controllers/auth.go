@@ -40,9 +40,9 @@ func (auth) InitSession() gin.HandlerFunc {
 			return
 		}
 
-		_authRepo.InitSession(req)
+		result, _ := _authRepo.InitSession(req)
 
-		c.JSON(http.StatusOK, resWrapper.Success("This will init auth", nil))
+		c.JSON(http.StatusOK, resWrapper.Success(result, nil))
 		c.Done()
 	}
 }

@@ -43,7 +43,7 @@ func GetDeviceCollection(db *mongo.Database) *mongo.Collection {
 		deviceCollection = db.Collection(DEVICE_COLLECTION)
 		createDeviceCollectionIndexes()
 	})
-	return clientCollection
+	return deviceCollection
 }
 
 func createDeviceCollectionIndexes() {
@@ -54,7 +54,7 @@ func createDeviceCollectionIndexes() {
 		},
 	}
 	opts := options.CreateIndexes().SetMaxTime(2 * time.Second)
-	_, err := clientCollection.Indexes().CreateMany(context.Background(),
+	_, err := deviceCollection.Indexes().CreateMany(context.Background(),
 		models, opts)
 	if err != nil {
 		log.F(err.Error())

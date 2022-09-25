@@ -25,7 +25,7 @@ func initDeviceColln() {
 
 // --- implementation
 
-func (c deviceRepo) GetDeviceModel(data modelRef.DeviceModel) (modelRef.DeviceModel, error) {
+func (c deviceRepo) GetDevice(data modelRef.DeviceModel) (modelRef.DeviceModel, error) {
 	// doc, err := c.GetByIP(data.Maker)
 	ins, err := c.model.InsertOne(GetDbCtx(), data)
 	if err != nil {

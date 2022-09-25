@@ -14,9 +14,17 @@ func GetAuthRepo() authRepo {
 
 // --- implementation
 
-func (a authRepo) InitSession(req reqModels.AuthInitReq) {
-	deviceData, err := req.AuthInitReqToDeviceModel()
+func (a authRepo) InitSession(req reqModels.AuthInitReq) (string, error) {
+
+	session, err := _sessionRepoInstance.GetSession(req.IP)
 	if err != nil {
-		_sessionRepoInstance.GetSession(req.IP, deviceData)
+		return "", err
 	}
+
+	deviceData, err := req.AuthInitReqToDeviceModel(session.ID)
+	if err != nil {
+		return "", err
+	}
+	_deviceRepoInstance.GetDevice(deviceData)
+	return "done", nil
 }
