@@ -21,3 +21,5 @@
 *.DS_Store
 coverage.out
 cover.html
+
+temp.json

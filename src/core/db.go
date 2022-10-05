@@ -2,10 +2,10 @@ package core
 
 import (
 	"fmt"
+	"go-rest-starter/src/api/repository"
 	log "go-rest-starter/src/core/logger"
 	"sync"
 
-	"go-rest-starter/src/api/repository"
 	appTypes "go-rest-starter/src/core/types"
 	helpers "go-rest-starter/src/utils/helpers"
 
@@ -83,7 +83,7 @@ func connectToDb(config *appTypes.DatabaseConfig) {
 
 	log.I("injecting db instance to repository")
 	// db instance injection
-	repository.UseDb(_db)
+	repository.UseDb(_db, RedisClient())
 
 	ctx.Cancel()
 }

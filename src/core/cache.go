@@ -37,6 +37,10 @@ func InitRedis() {
 	})
 }
 
+func RedisClient() *redis.Client {
+	return redisDb
+}
+
 func isRedisHealthy() bool {
 	pingRes := redisDb.Ping(ctx)
 	if pingRes != nil && pingRes.String() == "ping: PONG" {

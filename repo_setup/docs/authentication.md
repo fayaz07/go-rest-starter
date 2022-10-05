@@ -61,9 +61,9 @@ Body (for mobile):
 
 ### Registration
 
-1. Client sends the auth-token to the server along with the registration details.
-2. Server checks if the auth-token is valid.
-3. A max of 10 requests are allowed per auth-token and it's subsequent IP address.
+1. Client sends the exchange-token to the server along with the registration details.
+2. Server checks if the exchange-token is valid.
+3. A max of 10 requests are allowed per exchange-token and it's subsequent IP address.
 4. Once all the information is properly in place and registration is successful, the server should close any registration requests from the same IP address for one hour.
 
 Prototype of request:
@@ -86,11 +86,11 @@ body:
 
 ### Login
 
-1. Client sends the auth-token to the server along with the login details.
-2. Server checks if the auth-token is valid.
-3. A max of 10 requests are allowed per auth-token and it's subsequent IP address.
+1. Client sends the exchange-token to the server along with the login details.
+2. Server checks if the exchange-token is valid.
+3. A max of 10 requests are allowed per exchange-token and it's subsequent IP address.
 4. If the user has not registered yet, then the server should send a response with the error code `REGISTRATION_REQUIRED`.
-5. If the user sends invalid password for 5 attempts with the same auth-token, then the server should send a response with the error code `INVALID_PASSWORD` and locks the user's account until one hour.
+5. If the user sends invalid password for 5 attempts with the same exchange-token, then the server should send a response with the error code `INVALID_PASSWORD` and locks the user's account until one hour.
 
 Prototype of request:
 

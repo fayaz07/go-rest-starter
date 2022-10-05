@@ -15,6 +15,8 @@ func InitApplication() {
 	appConfig := config.GetAppConfig()
 	log.I(helpers.Pretty(appConfig))
 
+	InitRedis()
+
 	log.I("Connecting to database ....")
 	InitializeDatabseConn(appConfig.DB)
 	db := GetDbConnection()
@@ -23,8 +25,6 @@ func InitApplication() {
 	} else {
 		log.F("Failed to connect to database")
 	}
-
-	InitRedis()
 
 	server = gin.Default()
 	log.I("Starting server")

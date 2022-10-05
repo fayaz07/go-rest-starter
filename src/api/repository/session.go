@@ -4,6 +4,7 @@ import (
 	"errors"
 	models "go-rest-starter/src/api/models/db"
 	log "go-rest-starter/src/core/logger"
+	"go-rest-starter/src/utils/helpers"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -36,7 +37,7 @@ func (r sessionRepo) GetSession(ip string) (*models.SessionModel, error) {
 }
 
 func (r sessionRepo) createSession(ip string) (*models.SessionModel, error) {
-	ctx := GetRWCtx()
+	ctx := helpers.GetDbRWContext()
 	data := models.SessionModel{IP: ip}
 	result, err := r.model.InsertOne(ctx.Ctx, data)
 	ctx.Cancel()
@@ -48,8 +49,10 @@ func (r sessionRepo) createSession(ip string) (*models.SessionModel, error) {
 }
 
 func (r sessionRepo) GetByIP(ip string) (*models.SessionModel, error) {
+	ctx := helpers.GetDbRWContext()
 	var result *models.SessionModel
-	err := r.model.FindOne(GetDbCtx(), bson.M{"ip": ip}).Decode(&result)
+	err := r.model.FindOne(ctx.Ctx, bson.M{"ip": ip}).Decode(&result)
+	ctx.Cancel()
 	if err == nil {
 		return result, nil
 	}
