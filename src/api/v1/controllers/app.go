@@ -4,24 +4,19 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
-	wrappers "go-rest-starter/src/api/wrappers"
 )
 
-var resWrapper wrappers.ResponseWrapper = wrappers.GetResponseWrapper()
-
 // Abstracting functions to be used only by those routers which require it
-type hello BaseController
+type appStatus BaseController
 
-var instance hello
+var instance appStatus
 
-func GetHelloController() hello {
+func GetAppStatusController() appStatus {
 	return instance
 }
 
 // Controller functions implementation start here
-
-func (hello) Hello() gin.HandlerFunc {
+func (appStatus) SayHello() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusOK, resWrapper.Success("Hello", nil))
 		c.Done()

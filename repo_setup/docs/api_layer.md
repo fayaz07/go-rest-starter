@@ -10,6 +10,7 @@
 - **repository**: will hold all the operations that are to be performed on database using the data-model
 - **cache**: caching required or frequently used data
 - **wrappers**: will hold response/request wrappers and converters
+- **mappers**: `x.go` includes all mappers for `x_to_y`, `x_to_z`...
 
 ```mermaid
 graph TD
@@ -23,6 +24,7 @@ graph TD
     F --> I(cache)
     I --> F
     F --> G(models) --> H(database)
+    G --> L(mappers)
     D --> J(file system)
     J --> D
     B --> K(static)

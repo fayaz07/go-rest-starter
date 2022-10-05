@@ -15,3 +15,11 @@
 # vendor/
 
 .env
+.vscode/*
+!.vscode/settings.json
+
+*.DS_Store
+coverage.out
+cover.html
+
+temp.json

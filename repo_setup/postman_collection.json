@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "65820950-3842-48ad-9394-c70826a30dc5",
+		"_postman_id": "ed8bf5b6-2f5f-40a4-8553-fc1aad6ec032",
 		"name": "go-rest-starter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,13 +14,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:7001/v1/app/hello",
+							"raw": "{{url}}/app/hello",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "7001",
 							"path": [
-								"v1",
 								"app",
 								"hello"
 							]
@@ -34,11 +32,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:7001/health",
+							"raw": "127.0.0.1:7000/health",
 							"host": [
-								"localhost"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
-							"port": "7001",
+							"port": "7000",
 							"path": [
 								"health"
 							]
@@ -47,6 +48,65 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "init authentication",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"device\": \"mobile\",\n    \"os\": \"android\",\n    \"model\": \"Samsung Galaxy S7\",\n    \"maker\": \"Samsung\",\n    \"connection\": \"wifi\",\n    \"clientVersion\": \"0.1\",\n    \"osVersion\": \"7.0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/session/init",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"session",
+								"init"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost:7001/api/v1"
 		}
 	]
 }

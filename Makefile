@@ -8,11 +8,25 @@ all: install
 
 install:
 	echo "Installing go modules..." && \
+	go install github.com/cespare/reflex@latest && \
 	go mod download && \
 	echo "Completed" 
 
 build:
-	go build src/main.go
+	go build -v ./src/...
 
-# dev server
-# reflex -r '\.go$' -s -- sh -c "go run src/main.go" 
+run: 
+	go run src/main.go --env=dev
+
+# server
+run_watch: 
+	reflex -r "\.go$" -s -- sh -c "go run src/main.go --env=dev"
+	
+clean_cache:
+	go clean -testcache	
+
+test: clean_cache
+	go test ./src/... -coverprofile=coverage.out -v
+
+test_cov:  clean_cache
+	go test ./src/... -coverprofile=coverage.out; go tool cover -o cover.html -html=coverage.out; open cover.html 

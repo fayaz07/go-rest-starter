@@ -2,8 +2,9 @@ package core
 
 import (
 	"context"
-	"log"
 	"sync"
+
+	log "go-rest-starter/src/core/logger"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -15,25 +16,29 @@ const (
 )
 
 var ctx = context.Background()
-var once sync.Once
+var _once sync.Once
 var redisDb *redis.Client
 
 var redisDbActive bool = false
 
 func InitRedis() {
-	once.Do(func() {
-		log.Println("Initializing redis layer...")
+	_once.Do(func() {
+		log.I("Initializing redis layer...")
 		redisDb = redis.NewClient(&redis.Options{
 			Addr:     address,
 			Password: passwd,    // no password set
 			DB:       redisDbId, // use default DB
 		})
 		if !isRedisHealthy() {
-			log.Panic("Redis connection failed!")
+			log.P("Redis connection failed!")
 		} else {
-			log.Println("Connected to Redis!")
+			log.I("Connected to Redis!")
 		}
 	})
+}
+
+func RedisClient() *redis.Client {
+	return redisDb
 }
 
 func isRedisHealthy() bool {

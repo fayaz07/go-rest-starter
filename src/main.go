@@ -1,8 +1,6 @@
 package main
 
-import (
-	core "go-rest-starter/src/core"
-)
+import "go-rest-starter/src/core"
 
 func main() {
 

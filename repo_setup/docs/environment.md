@@ -21,6 +21,14 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin
 ```
 
+#### Reflex for watchable server
+
+> Note: requires GO version 1.16+
+
+```bash
+go install github.com/cespare/reflex@latest
+```
+
 ### MongoDB setup
 
 Go ahead to [MongoDB](https://docs.mongodb.com/manual/installation/)'s official installation docs page and install it.

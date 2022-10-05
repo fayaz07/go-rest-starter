@@ -1,11 +1,17 @@
 package core
 
 import (
+	ginzap "github.com/gin-contrib/zap"
+
 	routers "go-rest-starter/src/api/v1/routers"
+	config "go-rest-starter/src/core/config"
+	log "go-rest-starter/src/core/logger"
+	"go-rest-starter/src/utils/constants"
 	"net/http"
 	"strconv"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +23,23 @@ var _lastHealthResult = gin.H{}
 func InitializeServer(r *gin.Engine) {
 	//	e.InitEmailConfig()
 
-	r.Use(gin.Recovery())
+	logger := log.GetLogger()
+
+	log.I("Starting GIN Server...")
+	setGinMode()
+
+	r.Use(ginzap.Ginzap(logger, time.RFC3339, true))
+
+	r.Use(ginzap.RecoveryWithZap(logger, true))
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "http://127.0.0.1", "http://127.0.0.1:7001"},
+		AllowMethods:     []string{"PUT", "POST"},
+		AllowHeaders:     []string{"Origin", "Host"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	r.MaxMultipartMemory = 4 << 20
 
@@ -25,13 +47,14 @@ func InitializeServer(r *gin.Engine) {
 
 	r.GET("/health", health())
 
-	v1 := r.Group("/v1")
+	v1 := r.Group("/api/v1")
 	routers.AddAppStatusRoutes(v1)
+	routers.AddAuthRoutes(v1)
 
 	r.Use(invalidRoutes())
 
-	port := ":" + strconv.Itoa(GetAppConfig().AppPort)
-	r.Run(port)
+	port := ":" + strconv.Itoa(config.GetAppConfig().AppPort)
+	r.Run("localhost" + port)
 }
 
 func health() gin.HandlerFunc {
@@ -50,8 +73,8 @@ func health() gin.HandlerFunc {
 		_lastHealthResult = gin.H{
 			"healthy": healthy,
 			"app": gin.H{
-				"port":        _config.AppPort,
-				"environment": _config.AppEnv,
+				"port":        config.GetAppConfig().AppPort,
+				"environment": config.GetAppConfig().AppEnv,
 			},
 			"services": gin.H{
 				"database": isDbConnectionHealthy(),
@@ -65,5 +88,16 @@ func health() gin.HandlerFunc {
 func invalidRoutes() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.AbortWithStatusJSON(404, gin.H{"status": "failed", "message": "You've lost in this universe"})
+	}
+}
+
+func setGinMode() {
+	switch config.GetAppConfig().AppEnv {
+	case constants.PROD_ENV:
+		gin.SetMode(gin.ReleaseMode)
+	case constants.DEV_ENV:
+		gin.SetMode(gin.DebugMode)
+	case constants.TEST_ENV, constants.STAGING_ENV:
+		gin.SetMode(gin.TestMode)
 	}
 }
