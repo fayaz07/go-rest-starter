@@ -45,7 +45,7 @@ func getZapConfig(settings types.AppSettings) zapcore.Core {
 	})
 
 	return zapcore.NewTee(
-		zapcore.NewCore(fileEncoder, logRotateWriter, highPriority),
+		zapcore.NewCore(fileEncoder, logRotateWriter, zap.DebugLevel),
 		zapcore.NewCore(consoleEncoder, consoleDebugging, lowPriority),
 		zapcore.NewCore(consoleEncoder, consoleErrors, highPriority),
 	)
